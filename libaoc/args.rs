@@ -9,8 +9,6 @@
 //! It handles part specifiers specially, and provides
 //! some convenience for processing normal arguments.
 
-use std;
-
 /// Which part of the day's problem to solve.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Part {
