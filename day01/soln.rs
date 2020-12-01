@@ -8,6 +8,9 @@
 use aoc::*;
 
 fn find_sum(nums: &[u64], target: u64, count: usize, cur: u64) -> Option<Vec<u64>> {
+    if cur > target {
+        return None;
+    }
     if count == 0 {
         if cur == target {
             return Some(Vec::new());
@@ -24,7 +27,10 @@ fn find_sum(nums: &[u64], target: u64, count: usize, cur: u64) -> Option<Vec<u64
 }
 
 pub fn main() {
-    let nums: Vec<u64> = input_lines().map(|l| l.parse().unwrap()).collect();
+    let mut nums: Vec<u64> = input_lines().map(|l| l.parse().unwrap()).collect();
+    nums.sort_by_key(|&n| std::cmp::Reverse(n));
+    let smallest = *nums.last().unwrap();
+    nums.retain(move |&n| n != smallest && n + smallest <= 2020);
     let soln = match get_part() {
         Part1 => find_sum(&nums, 2020, 2, 0).unwrap(),
         Part2 => find_sum(&nums, 2020, 3, 0).unwrap(),
