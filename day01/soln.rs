@@ -54,13 +54,14 @@ pub fn main() {
     // Remove "too large" inputs.
     nums.sort_by_key(|&n| std::cmp::Reverse(n));
     let smallest = *nums.last().unwrap();
-    nums.retain(move |&n| n != smallest && n + smallest <= 2020);
+    nums.retain(move |&n| n == smallest || n + smallest <= 2020);
 
     // Find the sum.
-    let soln = match get_part() {
-        Part1 => find_sum(&nums, 2020, 2, 0).unwrap(),
-        Part2 => find_sum(&nums, 2020, 3, 0).unwrap(),
+    let nterms = match get_part() {
+        Part1 => 2,
+        Part2 => 3,
     };
+    let soln = find_sum(&nums, 2020, nterms, 0).unwrap();
 
     // Show the product.
     let p: u64 = soln.into_iter().product();

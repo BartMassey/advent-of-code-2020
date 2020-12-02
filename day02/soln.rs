@@ -7,7 +7,14 @@
 
 use aoc::*;
 
-fn read_input() -> Vec<(usize, usize, char, String)> {
+struct Record {
+    min: usize,
+    max: usize,
+    ch: char,
+    password: String,
+}
+
+fn read_input() -> Vec<Record> {
     let pat = Reparse::new(r"(\d+)-(\d+) (.): ([a-z]+)");
     input_lines()
         .map(|line| {
@@ -16,30 +23,32 @@ fn read_input() -> Vec<(usize, usize, char, String)> {
             let max = matches.get(2);
             let ch = matches.get(3);
             let password = matches.get(4);
-            (min, max, ch, password)
+            Record { min, max, ch, password }
         })
         .collect()
 }
 
+fn part1_filter(r: &Record) -> bool {
+    let nch = r.password.chars().filter(|&c| c == r.ch).count();
+    r.min <= nch && nch <= r.max
+}
+
+fn part2_filter(r: &Record) -> bool {
+    let pchars: Vec<char> = r.password.chars().collect();
+    let ok1 = pchars[r.min - 1] == r.ch;
+    let ok2 = pchars[r.max - 1] == r.ch;
+    ok1 ^ ok2
+}
+
 pub fn main() {
     let input = read_input();
-    let nok = match get_part() {
-        Part1 => input
-            .iter()
-            .filter(|&(min, max, ch, password)| {
-                let nch = password.chars().filter(|c| c == ch).count();
-                *min <= nch && nch <= *max
-            })
-            .count(),
-        Part2 => input
-            .iter()
-            .filter(|&(p1, p2, ch, password)| {
-                let pchars: Vec<char> = password.chars().collect();
-                let ok1 = pchars[*p1 - 1] == *ch;
-                let ok2 = pchars[*p2 - 1] == *ch;
-                ok1 && !ok2 || ok2 && !ok1
-            })
-            .count(),
+    let part_filter = match get_part() {
+        Part1 => part1_filter,
+        Part2 => part2_filter,
     };
+    let nok = input
+        .into_iter()
+        .filter(part_filter)
+        .count();
     println!("{}", nok);
 }
