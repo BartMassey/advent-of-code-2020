@@ -79,3 +79,4 @@ done
 
 cd ../$DAY
 echo $DAYSTR >.day
+echo "/input.txt" >>.gitignore

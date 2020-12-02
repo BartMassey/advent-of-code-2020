@@ -5,7 +5,11 @@
 //! Advent of Code Day <day>.  
 //! Bart Massey <year>
 
+use aoc::*;
+
 pub fn main() {
-    let part = aoc::get_part();
-    assert!(part == aoc::Part1);
+    match get_part() {
+        Part1 => todo!(),
+        Part2 => todo!(),
+    }
 }
