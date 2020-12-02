@@ -3,8 +3,11 @@ Bart Massey
 
 ---
 
-Solution to
-[this problem](https://adventofcode.com/<year>/day/<day>).
+*Your notes here.*
+
+---
+
+Solution to [this problem](https://adventofcode.com/<year>/day/<day>).
 
 Save your problem input to `input.txt` and run with
 
