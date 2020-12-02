@@ -9,8 +9,12 @@ because reasons.
 Had one incorrect submission, because I missed the xor
 constraint in Part 2.
 
-Solution to
-[this problem](https://adventofcode.com/2020/day/2).
+Subsequent cleanup included vastly restructuring input,
+switching parsing solutions, splitting out closures, etc.
+
+---
+
+Solution to [this problem](https://adventofcode.com/2020/day/2).
 
 Save your problem input to `input.txt` and run with
 
