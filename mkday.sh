@@ -76,7 +76,7 @@ for f in *
 do
     sed -e "s=<day>=$DAYSTR=g" -e "s=<year>=$YEAR=g" <$f >../$DAY/$f
 done
-cat gitignore >../$DAY/.gitignore
+mv ../$DAY/gitignore ../$DAY/.gitignore
 
 cd ../$DAY
 echo $DAYSTR >.day
