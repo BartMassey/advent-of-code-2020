@@ -53,7 +53,7 @@ const KEYS: &[(&str, fn(&str)->bool)] = &[
         if chs.len() != 7 || chs[0] != '#' {
             return false;
         }
-        chs.into_iter().all(|c| c.is_digit(16))
+        chs[1..].into_iter().all(|c| c.is_digit(16))
     }),
     ("ecl", |v: &str| {
         EYE_COLORS.iter().any(|&c| v == c)
@@ -101,10 +101,14 @@ pub fn main() {
         },
         Part2 => {
             let nvalid = passports.into_iter().filter(|p| {
+                //eprintln!();
                 KEYS.iter().all(|&(k, validate)| {
                     if let Some(v) = p.get(k) {
-                        validate(v)
+                        let result = validate(v);
+                        //eprintln!("{}:{} {:?}", k, v, result);
+                        result
                     } else {
+                        //eprintln!("{}: no key", k);
                         false
                     }
                 })

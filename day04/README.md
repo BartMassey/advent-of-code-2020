@@ -3,7 +3,11 @@ Bart Massey
 
 ---
 
-*Your notes here.*
+Fiddly parsing nightmare. Ugh.
+
+Finished Part 1 in about 30 minutes. Took another 30 minutes
+to write Part 2 and another 30 minutes to debug it. 1.5
+hours of mostly not-fun.
 
 ---
 
