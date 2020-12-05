@@ -35,20 +35,19 @@ fn read_passes() -> Vec<(u64, u64)> {
 
 pub fn main() {
     let passes = read_passes();
+    let mut ids: Vec<u64> = passes
+        .into_iter()
+        .map(|(r, c)| r * 8 + c)
+        .collect();
     match get_part() {
         Part1 => {
-            let highest = passes
+            let highest = ids
                 .into_iter()
-                .map(|(r, c)| r * 8 + c)
                 .max()
                 .unwrap();
             println!("{}", highest);
         },
         Part2 => {
-            let mut ids: Vec<u64> = passes
-                .into_iter()
-                .map(|(r, c)| r * 8 + c)
-                .collect();
             ids.sort();
             for i in 0 .. ids.len() - 1 {
                 if ids[i] + 2 == ids[i + 1] {
