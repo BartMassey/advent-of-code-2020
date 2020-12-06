@@ -19,7 +19,7 @@ fn read_sets() -> Vec<Vec<HashSet<char>>> {
         .split("\n\n").
         map(|group| {
             group
-                .split("\n")
+                .split('\n')
                 .map(|person| {
                     person.chars().collect()
                 })
@@ -28,31 +28,27 @@ fn read_sets() -> Vec<Vec<HashSet<char>>> {
         .collect()
 }
 
-macro_rules! compute {
-    ($sets:expr, $p:ident, $u:ident, $combine: expr) => {
-        $sets
-            .into_iter()
-            .map(|mut group| {
-                let last = match group.pop() {
-                    None => return 0,
-                    Some(p) => p,
-                };
-                group
-                    .into_iter()
-                    .fold(last, |$u, $p| {
-                        $combine.cloned().collect()
-                    })
-                    .len()
-            })
-            .sum()
-    };
+fn compute(sets: Vec<Vec<HashSet<char>>>, combine: fn(HashSet<char>, HashSet<char>) -> HashSet<char>) -> usize {
+    sets
+        .into_iter()
+        .map(|mut group| {
+            let last = match group.pop() {
+                None => return 0,
+                Some(p) => p,
+            };
+            group
+                .into_iter()
+                .fold(last, combine)
+                .len()
+        })
+        .sum()
 }
 
 pub fn main() {
     let sets = read_sets();
     let count: usize = match get_part() {
-        Part1 => compute!(sets, p, u, p.union(&u)),
-        Part2 => compute!(sets, p, u, p.intersection(&u)),
+        Part1 => compute(sets, |p, u| p.union(&u).cloned().collect()),
+        Part2 => compute(sets, |p, u| p.intersection(&u).cloned().collect()),
     };
     println!("{}", count);
 }
