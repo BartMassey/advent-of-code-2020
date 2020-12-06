@@ -3,7 +3,10 @@ Bart Massey
 
 ---
 
-*Your notes here.*
+Fairly straightforward exercise in set union and
+intersection. Rust made it complicated to use the same code
+for Part 1 and Part 2: the type checker just isn't quite
+smart enough yet to easily express the desired thing.
 
 ---
 
