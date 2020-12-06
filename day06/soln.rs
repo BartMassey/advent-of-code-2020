@@ -44,7 +44,9 @@ fn compute(
 pub fn main() {
     let sets = read_sets();
     let count: usize = match get_part() {
-        Part1 => compute(sets, |p, u| p.union(&u).cloned().collect()),
+        Part1 => {
+            compute(sets, |p, u| p.union(&u).cloned().collect())
+        }
         Part2 => {
             compute(sets, |p, u| p.intersection(&u).cloned().collect())
         }
