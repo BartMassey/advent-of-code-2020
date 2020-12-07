@@ -8,6 +8,11 @@ intersection. Rust made it complicated to use the same code
 for Part 1 and Part 2: the type checker just isn't quite
 smart enough yet to easily express the desired thing.
 
+This branch shows a reimplementation of the nightly function
+`Iterator::fold_first()` which cleans up the code a
+bit. Adding "extention traits" to augment `std` is a pretty
+standard thing to do (pun intended).
+
 ---
 
 Solution to [this problem](https://adventofcode.com/2020/day/6).

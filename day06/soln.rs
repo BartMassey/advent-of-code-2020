@@ -5,6 +5,9 @@
 //! Advent of Code Day 6.  
 //! Bart Massey 2020
 
+mod fold1;
+use fold1::Fold1Ext;
+
 use std::collections::HashSet;
 
 use aoc::*;
@@ -31,12 +34,8 @@ fn compute(
     combine: fn(HashSet<char>, HashSet<char>) -> HashSet<char>,
 ) -> usize {
     sets.into_iter()
-        .map(|mut group| {
-            let last = match group.pop() {
-                None => return 0,
-                Some(p) => p,
-            };
-            group.into_iter().fold(last, combine).len()
+        .map(|group| {
+            group.into_iter().fold1(combine).unwrap().len()
         })
         .sum()
 }
