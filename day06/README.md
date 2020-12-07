@@ -8,6 +8,10 @@ intersection. Rust made it complicated to use the same code
 for Part 1 and Part 2: the type checker just isn't quite
 smart enough yet to easily express the desired thing.
 
+See the branch `day06-fold1` in this repo for a demo
+reimplementation of the nightly function
+`Iterator::fold_first`, which is useful here.
+
 ---
 
 Solution to [this problem](https://adventofcode.com/2020/day/6).
