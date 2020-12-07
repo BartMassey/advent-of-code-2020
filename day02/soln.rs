@@ -24,7 +24,7 @@ fn read_input() -> Vec<Input> {
     let pat = Reparse::new(r"(\d+)-(\d+) (.): ([a-z]+)");
     input_lines()
         .map(|line| {
-            let matches = pat.parse(&line);
+            let matches = pat.parse(&line).unwrap();
             let lower = matches.get(1);
             let upper = matches.get(2);
             let ch = matches.get(3);
