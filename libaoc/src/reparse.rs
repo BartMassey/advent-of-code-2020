@@ -19,8 +19,8 @@ impl Reparse {
         Reparse(Regex::new(pat).unwrap())
     }
 
-    pub fn parse<'a>(&self, line: &'a str) -> Rematch<'a> {
-        Rematch(self.0.captures(line).unwrap())
+    pub fn parse<'a>(&self, line: &'a str) -> Option<Rematch<'a>> {
+        Some(Rematch(self.0.captures(line)?))
     }
 }
 
