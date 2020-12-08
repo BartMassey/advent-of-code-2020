@@ -45,7 +45,7 @@ fn contained(rules: &BagRules, root: &str) -> usize {
         .sum()
 }
 
-pub fn main() {
+fn main() {
     let rules = get_rules();
     let target = "shiny gold";
     match get_part() {

@@ -46,7 +46,7 @@ fn find_sum(
     None
 }
 
-pub fn main() {
+fn main() {
     // Collect input.
     let mut nums: Vec<u64> =
         input_lines().map(|l| l.parse().unwrap()).collect();

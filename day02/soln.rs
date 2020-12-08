@@ -61,7 +61,7 @@ fn part2_filter(r: &Input) -> bool {
     ok_lower ^ ok_upper
 }
 
-pub fn main() {
+fn main() {
     let input = read_input();
 
     // Pick the appropriate filter.

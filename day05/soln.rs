@@ -33,7 +33,7 @@ fn read_passes() -> Vec<(u64, u64)> {
         .collect()
 }
 
-pub fn main() {
+fn main() {
     let passes = read_passes();
     let mut ids: Vec<u64> = passes
         .into_iter()

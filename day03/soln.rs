@@ -39,7 +39,7 @@ fn count_trees(map: &Map, right: usize, down: usize) -> usize {
     ntrees
 }
 
-pub fn main() {
+fn main() {
     let map = read_map();
     match get_part() {
         Part1 => {

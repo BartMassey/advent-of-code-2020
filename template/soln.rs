@@ -7,7 +7,7 @@
 
 use aoc::*;
 
-pub fn main() {
+fn main() {
     match get_part() {
         Part1 => todo!(),
         Part2 => todo!(),

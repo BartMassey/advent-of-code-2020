@@ -41,7 +41,7 @@ fn compute(
         .sum()
 }
 
-pub fn main() {
+fn main() {
     let sets = read_sets();
     let count: usize = match get_part() {
         Part1 => {

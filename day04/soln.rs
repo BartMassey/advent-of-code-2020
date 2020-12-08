@@ -90,7 +90,7 @@ fn get_passports() -> Vec<HashMap<String, String>> {
         .collect()
 }
 
-pub fn main() {
+fn main() {
     let passports = get_passports();
     match get_part() {
         Part1 => {
