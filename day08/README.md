@@ -6,6 +6,9 @@ Bart Massey
 As Advent of Code virtual machines go, this one seems
 deceptively simple. We shall see. We shall see.
 
+Rewrote the Part 2 code after looking at a Redditor
+solution. Much clearer: the closure is gone.
+
 ---
 
 Solution to [this problem](https://adventofcode.com/2020/day/8).

@@ -74,26 +74,20 @@ fn main() {
         }
         Part2 => {
             let nprogram = program.len();
-
-            let mut try_sub = |old, new, i: usize| {
-                if program[i].op == old {
-                    program[i].op = new;
-                    let (pc, acc) = run_program(&program);
-                    if pc == nprogram as isize {
-                        return Some(acc);
-                    }
-                    program[i].op = old;
-                }
-                None
-            };
-
             for i in 0..nprogram {
-                if let Some(acc) = try_sub(Jmp, Nop, i)
-                    .or_else(|| try_sub(Nop, Jmp, i))
-                {
+                let old = program[i].op;
+                let new = match old {
+                    Jmp => Nop,
+                    Nop => Jmp,
+                    _ => continue,
+                };
+                program[i].op = new;
+                let (pc, acc) = run_program(&program);
+                if pc == nprogram as isize {
                     println!("{}", acc);
                     return;
                 }
+                program[i].op = old;
             }
             panic!("no substitution found");
         }
