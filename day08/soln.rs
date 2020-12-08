@@ -26,11 +26,7 @@ struct Insn {
 fn read_program() -> Vec<Insn> {
     let parser = Reparse::new("^([a-z][a-z][a-z]) ([-+][0-9]+)$");
 
-    let names = vec![
-        ("nop", Nop),
-        ("acc", Acc),
-        ("jmp", Jmp),
-    ];
+    let names = vec![("nop", Nop), ("acc", Acc), ("jmp", Jmp)];
     let names: HashMap<&'static str, Opcode> =
         names.into_iter().collect();
 
@@ -75,7 +71,7 @@ fn main() {
         Part1 => {
             let (_, acc) = run_program(&program);
             println!("{}", acc);
-        },
+        }
         Part2 => {
             let nprogram = program.len();
 
@@ -90,7 +86,7 @@ fn main() {
                 }
                 None
             };
-            
+
             for i in 0..nprogram {
                 if let Some(acc) = try_sub(Jmp, Nop, i)
                     .or_else(|| try_sub(Nop, Jmp, i))
@@ -100,6 +96,6 @@ fn main() {
                 }
             }
             panic!("no substitution found");
-        },
+        }
     }
 }
