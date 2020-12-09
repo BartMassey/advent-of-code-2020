@@ -3,18 +3,11 @@ Bart Massey
 
 ---
 
-Finally the dreaded dynamic programming problem. But
-realistically my difficulties in correctly reading the
-problem description were a bigger time-sink, in spite of my
-trying to be careful.
+Part 2 looked like finally the dreaded dynamic programming
+problem. Then I realized my mistake. See the Day 9 README in
+the `main` branch of this repo for details.
 
-Also, I really wish the test instance wouldn't have
-different parameters than the input instance: it is easy to
-forget to switch between the two. Ideally, the instance
-would just start with the window length.
-
-This is *not* a decryption problem. I don't know why it is
-labeled as one.
+Nevertheless, here's a dynamic programming solution.
 
 ---
 
