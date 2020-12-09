@@ -16,7 +16,8 @@ programming solution that I knew would work. Solved Part 2.
 
 After I'd debugged everything, I went back and
 re-implemented my original algorithm. Worked fine, much
-simpler, 10× faster.
+simpler, 30% faster. I'm actually shocked that the speed
+difference was so small.
 
 See the branch `day09-dynamic-programming` in this repo for
 the previous solution. Sigh.
