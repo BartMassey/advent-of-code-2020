@@ -59,8 +59,10 @@ fn find_subseq(seq: &[u64], invalid: u64) -> (usize, usize) {
 
 fn main() {
     let seq: Vec<u64> = input_lines().map(|l| l.parse().unwrap()).collect();
-    let unmatched = find_unmatched(&seq, 25);
-    match get_part() {
+    let (part, args) = get_part_args();
+    let pre_len: usize = args[0].parse().unwrap();
+    let unmatched = find_unmatched(&seq, pre_len);
+    match part {
         Part1 => {
             println!("{}", unmatched);
         },
