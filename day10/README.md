@@ -3,15 +3,10 @@ Bart Massey
 
 ---
 
-Hooray. Part 2 really was dynamic programming this time.  My
-dumb bug there cost me some time.
-
 For some reason, I wrote a fiddly search rather than the
-obvious algorithm for Part 1. I will rewrite it now.
-
-Interesting problem. I'm not sure about these joltage
-step-up adapters from 0 jolts. I'd like to see Kirchoff's
-Joltage Law sometime.
+obvious algorithm for Part 1 and used `HashSet` for this
+stuff. Neither was a reasonable move. See the `main` branch
+for my final solution.
 
 ---
 
