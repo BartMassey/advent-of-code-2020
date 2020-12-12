@@ -5,10 +5,10 @@
 
 //! Regex-based line parsing for Advent of Code 2020 solutions.
 
-use std::str::FromStr;
 use std::fmt::Debug;
+use std::str::FromStr;
 
-pub use regex::{Regex, Captures};
+pub use regex::{Captures, Regex};
 
 pub struct Reparse(Regex);
 
@@ -26,7 +26,9 @@ impl Reparse {
 
 impl<'a> Rematch<'a> {
     pub fn get<T>(&'a self, index: usize) -> T
-        where T: FromStr, <T as FromStr>::Err: Debug,
+    where
+        T: FromStr,
+        <T as FromStr>::Err: Debug,
     {
         self.0.get(index).unwrap().as_str().parse().unwrap()
     }

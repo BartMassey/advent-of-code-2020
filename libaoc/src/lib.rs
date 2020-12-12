@@ -14,6 +14,9 @@
 // For an explanation of the structure of this file, see
 // http://stackoverflow.com/questions/22596920/
 
+pub mod convert;
+pub use self::convert::*;
+
 pub mod args;
 pub use self::args::*;
 
@@ -34,6 +37,9 @@ pub use self::astar::*;
 
 pub mod dirns;
 pub use self::dirns::*;
+
+pub mod geom;
+pub use self::geom::*;
 
 pub mod intcode;
 pub use self::intcode::*;
