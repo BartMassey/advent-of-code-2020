@@ -44,74 +44,57 @@ fn main() {
     match get_part() {
         Part1 => {
             let mut facing = Right;
-            let mut x = 0;
-            let mut y = 0;
-            for (m, mut d) in input {
+            let mut posn = (0, 0);
+            for (m, d) in input {
                 match m {
                     Move::D(dirn) => {
-                        let (dx, dy) = dirn.disp();
-                        x += dx * d;
-                        y += dy * d;
+                        posn = dirn.displace(posn, d);
                     }
                     Move::R(dirn) => {
-                        while d > 0 {
-                            facing = facing.turn(dirn);
-                            d -= 90;
-                        }
+                        assert!(d % 90 == 0);
+                        facing = facing.turn(dirn, d / 90);
                     }
                     Move::F => {
-                        let (dx, dy) = facing.disp();
-                        x += dx * d;
-                        y += dy * d;
+                        posn = facing.displace(posn, d);
                     }
                 }
             }
-            let travel = manhattan_distance((0, 0), (x, y));
+            let travel: u64 = manhattan_distance((0, 0), posn);
             println!("{}", travel);
         }
         Part2 => {
-            let mut xs = 0;
-            let mut ys = 0;
-            let mut xw = 10;
-            let mut yw = -1;
-            //println!("s=({},{}) w=({},{})", xs, ys, xw, yw);
+            let mut ps = (0, 0);
+            let mut pw = (-1, 10);
+            //println!("s={:?} w={:?}", ps, pw);
             for (m, mut d) in input {
                 match m {
                     Move::D(dirn) => {
-                        let (dx, dy) = dirn.disp();
-                        xw += dx * d;
-                        yw += dy * d;
+                        pw = dirn.displace(pw, d);
                     }
                     Move::R(CCW) => {
                         while d > 0 {
                             // (1, 0) -> (0, -1) -> (-1, 0) -> (0, 1)
                             //
-                            // | 0 1| xw 1  0 -1 0
-                            // |-1 0| yw 0 -1  0 1
-                            let nrw = yw;
-                            let ncw = -xw;
-                            xw = nrw;
-                            yw = ncw;
+                            // | 0 1| rw 1  0 -1 0
+                            // |-1 0| cw 0 -1  0 1
+                            pw = (-pw.1, pw.0);
                             d -= 90;
                         }
                     }
                     Move::R(CW) => {
                         while d > 0 {
-                            let nrw = -yw;
-                            let ncw = xw;
-                            xw = nrw;
-                            yw = ncw;
+                            pw = (pw.1, -pw.0);
                             d -= 90;
                         }
                     }
                     Move::F => {
-                        xs += xw * d;
-                        ys += yw * d;
+                        ps.0 += pw.0 * d;
+                        ps.1 += pw.1 * d;
                     }
                 }
-                //println!("s=({},{}) w=({},{})", xs, ys, xw, yw);
+                //println!("s={:?} w={:?}", ps, pw);
             }
-            let travel = manhattan_distance((0, 0), (xs, ys));
+            let travel: u64 = manhattan_distance((0, 0), ps);
             println!("{}", travel);
         }
     }
