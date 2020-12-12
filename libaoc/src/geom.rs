@@ -72,6 +72,26 @@ impl GridBox {
         Neighbors::new(self, (r, c), dist.convert_into())
     }
 
+    /// Return an iterator that will a beam from the
+    /// given location in the given direction, stopping
+    /// at a grid boundary.
+    pub fn beam<'a, T, U>(
+        &'a self,
+        location: (T, T),
+        step: (U, U),
+    ) -> Beam<'a, T>
+    where
+        T: ConvertInto<i64>,
+        i64: ConvertInto<T>,
+        U: ConvertInto<i64>,
+    {
+        let r = location.0.convert_into();
+        let c = location.1.convert_into();
+        let dr = step.0.convert_into();
+        let dc = step.1.convert_into();
+        Beam::new(self, (r, c), (dr, dc))
+    }
+
     /// Return the source location adjusted by the given offset
     /// iff the dest location is in-bounds. This is useful when
     /// "manual" clipping is needed.
@@ -102,13 +122,13 @@ impl GridBox {
 /// Iterator over the neighbors of a point in the four cardinal
 /// directions, clipped as appropriate.
 pub struct Neighbors<T> {
-    /// Origin.
+    // Origin.
     orig: (i64, i64),
-    /// Current location.
+    // Current location.
     loc: (i64, i64),
-    /// Upper-left corner.
+    // Upper-left corner.
     start: (i64, i64),
-    /// Lower-right corner.
+    // Lower-right corner.
     end: (i64, i64),
     // Phantom type for iterator.
     phantom: PhantomData<T>,
@@ -119,13 +139,11 @@ impl<T> Neighbors<T> {
     /// the given grid box starting at the given location.
     pub fn new(
         bounds: &GridBox,
-        location: (i64, i64),
+        orig: (i64, i64),
         dist: i64,
     ) -> Self {
         assert!(dist > 0);
-        let r = location.0.convert_into();
-        let c = location.1.convert_into();
-        let orig = (r, c);
+        let (r, c) = orig;
         let start = (0.max(r - dist), 0.max(c - dist));
         let end = if let ClipBox((rows, cols)) = *bounds {
             (rows.min(r + dist + 1), cols.min(c + dist + 1))
@@ -168,8 +186,10 @@ where
     }
 }
 
+
+// Low case is taken care of by doctest above.
 #[test]
-fn test_clip_hi() {
+fn test_neighbors_hi() {
     let clip_box = GridBox::new(4, 4);
     let mut neighbors = clip_box
         .neighbors((3, 3), 1)
@@ -180,6 +200,79 @@ fn test_clip_hi() {
         (3, 2),
     ];
     assert_eq!(neighbors, desired);
+}
+
+/// Beam iterator in a given direction until edge-of-grid is
+/// reached.
+pub struct Beam<'a, T> {
+    // Clipper.
+    clip: &'a GridBox,
+    // Current location.
+    loc: (i64, i64),
+    // Step direction.
+    step: (i64, i64),
+    // Phantom type for iterator.
+    phantom: PhantomData<T>,
+}
+
+impl<'a, T> Beam<'a, T> {
+    /// Return an iterator stepping in the given direction
+    /// until edge-of-grid is reached.
+    pub fn new(
+        clip: &'a GridBox,
+        loc: (i64, i64),
+        step: (i64, i64),
+    ) -> Self {
+        assert!(step != (0, 0));
+        Beam {
+            clip,
+            loc,
+            step,
+            phantom: PhantomData,
+        }
+    }
+}
+
+impl<'a, T> Iterator for Beam<'a, T>
+where
+    i64: ConvertInto<T>,
+{
+    type Item = (T, T);
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.clip
+            .clip::<i64, i64>(self.loc, self.step)
+            .map(|l| {
+                self.loc = l;
+                (l.0.convert_into(), l.1.convert_into())
+            })
+    }
+}
+
+#[test]
+fn test_beam_infinite() {
+    let grid = GridBox::new_grid();
+
+    let beam: Vec<(u8, u8)> = grid
+        .beam((5, 2), (1i8, 1))
+        .take(4)
+        .collect();
+    let expected = vec![(6, 3), (7, 4), (8, 5), (9, 6)];
+
+    assert_eq!(beam, expected);
+    let beam: Vec<(u8, u8)> = grid
+        .beam((5, 2), (1i8, -1))
+        .collect();
+    let expected = vec![(6, 1), (7, 0)];
+    assert_eq!(beam, expected);
+}
+
+#[test]
+fn test_beam_finite() {
+    let grid = GridBox::new(6, 6);
+    let beam: Vec<(u8, u8)> = grid.beam((3, 2), (1i8, -1)).collect();
+    let expected = vec![(4, 1), (5, 0)];
+    assert_eq!(beam, expected);
 }
 
 /// The ["Manhattan Distance"][1] between two points.
