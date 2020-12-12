@@ -58,20 +58,15 @@ fn iterate_far(v: &Vec<Vec<char>>) -> Vec<Vec<char>> {
             }
 
             let mut neighbors = 0;
-            for dr in -1..=1 {
-                for dc in -1..=1 {
-                    if dr == 0 && dc == 0 {
-                        continue;
+            for (dr, dc) in grid.neighbors::<i64, i64>((1, 1), 1) {
+                for (r0, c0) in grid.beam((r, c), (dr - 1, dc - 1)) {
+                    let target = v[r0][c0];
+                    if target == '#' {
+                        neighbors += 1;
+                        break;
                     }
-                    for (r0, c0) in grid.beam((r, c), (dr, dc)) {
-                        let target = v[r0][c0];
-                        if target == '#' {
-                            neighbors += 1;
-                            break;
-                        }
-                        if target == 'L' {
-                            break;
-                        }
+                    if target == 'L' {
+                        break;
                     }
                 }
             }
