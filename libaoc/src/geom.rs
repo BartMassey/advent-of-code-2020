@@ -6,7 +6,7 @@
 //! ```
 //! use aoc::geom::*;
 //!
-//! let clip_box = GridBox::new(3, 4);
+//! let clip_box = GridBox::new(4, 4);
 //! let mut neighbors = clip_box
 //!     .neighbors((2, 0), 1)
 //!     .collect::<Vec<_>>();
@@ -128,9 +128,9 @@ impl<T> Neighbors<T> {
         let orig = (r, c);
         let start = (0.max(r - dist), 0.max(c - dist));
         let end = if let ClipBox((rows, cols)) = *bounds {
-            (rows.min(r + dist), cols.min(c + dist))
+            (rows.min(r + dist + 1), cols.min(c + dist + 1))
         } else {
-            (r + dist, c + dist)
+            (r + dist + 1, c + dist + 1)
         };
         Neighbors {
             orig,
@@ -154,10 +154,10 @@ where
             self.loc.1 += 1;
             return self.next();
         }
-        if self.loc.1 > self.end.1 {
-            if self.loc.0 >= self.end.0 {
-                return None;
-            }
+        if self.loc.0 >= self.end.0 {
+            return None;
+        }
+        if self.loc.1 >= self.end.1 {
             self.loc = (self.loc.0 + 1, self.start.1);
             return self.next();
         }
@@ -166,6 +166,20 @@ where
         self.loc.1 += 1;
         Some(result)
     }
+}
+
+#[test]
+fn test_clip_hi() {
+    let clip_box = GridBox::new(4, 4);
+    let mut neighbors = clip_box
+        .neighbors((3, 3), 1)
+        .collect::<Vec<_>>();
+    neighbors.sort();
+    let desired = vec![
+        (2, 2), (2, 3),
+        (3, 2),
+    ];
+    assert_eq!(neighbors, desired);
 }
 
 /// The ["Manhattan Distance"][1] between two points.
