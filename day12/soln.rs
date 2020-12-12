@@ -6,6 +6,7 @@
 //! Bart Massey 2020
 
 use aoc::*;
+
 use aoc::Dirn::*;
 use aoc::Rot::*;
 
@@ -51,7 +52,7 @@ fn main() {
                         let (dx, dy) = dirn.disp();
                         x += dx * d;
                         y += dy * d;
-                    },
+                    }
                     Move::R(dirn) => {
                         while d > 0 {
                             facing = facing.turn(dirn);
@@ -73,14 +74,14 @@ fn main() {
             let mut ys = 0;
             let mut xw = 10;
             let mut yw = -1;
+            //println!("s=({},{}) w=({},{})", xs, ys, xw, yw);
             for (m, mut d) in input {
-                //println!("s=({},{}) w=({},{})", xs, ys, xw, yw);
                 match m {
                     Move::D(dirn) => {
                         let (dx, dy) = dirn.disp();
                         xw += dx * d;
                         yw += dy * d;
-                    },
+                    }
                     Move::R(CCW) => {
                         while d > 0 {
                             // (1, 0) -> (0, -1) -> (-1, 0) -> (0, 1)
@@ -108,6 +109,7 @@ fn main() {
                         ys += yw * d;
                     }
                 }
+                //println!("s=({},{}) w=({},{})", xs, ys, xw, yw);
             }
             let travel = manhattan_distance((0, 0), (xs, ys));
             println!("{}", travel);
