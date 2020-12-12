@@ -38,6 +38,9 @@ pub use self::astar::*;
 pub mod dirns;
 pub use self::dirns::*;
 
+pub mod geom;
+pub use self::geom::*;
+
 pub mod intcode;
 pub use self::intcode::*;
 

@@ -44,10 +44,7 @@ impl Dirn {
         i64: ConvertInto<T>,
     {
         let (r, c) = DIRNS[self as usize];
-        (
-            r.convert_into(),
-            c.convert_into(),
-        )
+        (r.convert_into(), c.convert_into())
     }
 
     /// Apply the appropriate displacement for the given
@@ -64,10 +61,7 @@ impl Dirn {
         let dist = dist.convert_into();
         r += dist * dr;
         c += dist * dc;
-        (
-            r.convert_into(),
-            c.convert_into(),
-        )
+        (r.convert_into(), c.convert_into())
     }
 
     /// Direction resulting from turning 90° in the given
