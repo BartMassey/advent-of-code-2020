@@ -3,7 +3,12 @@ Bart Massey
 
 ---
 
-*Your notes here.*
+Fortunately I had library code ready for this
+contingency. Unfortunately it was a little hard to use.
+
+I've updated it, and now things should be much better for
+future movement-on-the-plane challenges. I'm sure there'll
+be some.
 
 ---
 
