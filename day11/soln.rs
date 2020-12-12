@@ -49,30 +49,13 @@ fn iterate_far(v: &Vec<Vec<char>>) -> Vec<Vec<char>> {
     let mut result = v.clone();
     let rows = v.len();
     let cols = v[0].len();
+    let grid = GridBox::new(rows, cols);
     for r in 0..rows {
         for c in 0..cols {
             let seat = v[r][c];
             if seat == '.' {
                 continue;
             }
-            let trace = |dr, dc| {
-                let mut r0 = r;
-                let mut c0 = c;
-                let step = move || {
-                    let nr0 = r0 as isize + dr;
-                    let nc0 = c0 as isize + dc;
-                    if nr0 < 0 || nr0 >= rows as isize {
-                        return None;
-                    }
-                    if nc0 < 0 || nc0 >= cols as isize {
-                        return None;
-                    }
-                    r0 = nr0 as usize;
-                    c0 = nc0 as usize;
-                    Some((r0, c0))
-                };
-                std::iter::from_fn(step)
-            };
 
             let mut neighbors = 0;
             for dr in -1..=1 {
@@ -80,7 +63,7 @@ fn iterate_far(v: &Vec<Vec<char>>) -> Vec<Vec<char>> {
                     if dr == 0 && dc == 0 {
                         continue;
                     }
-                    for (r0, c0) in trace(dr, dc) {
+                    for (r0, c0) in grid.beam((r, c), (dr, dc)) {
                         let target = v[r0][c0];
                         if target == '#' {
                             neighbors += 1;
