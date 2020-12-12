@@ -17,30 +17,20 @@ fn iterate_near(v: &Vec<Vec<char>>) -> Vec<Vec<char>> {
     let mut result = v.clone();
     let rows = v.len();
     let cols = v[0].len();
-    let bump_down = |v| if v > 0 { v - 1 } else { v };
-    let bump_up = |v, lim| if v < lim { v + 1 } else { v };
+    let grid = GridBox::new(rows, cols);
     for r in 0..rows {
         for c in 0..cols {
             let seat = v[r][c];
             if seat == '.' {
                 continue;
             }
-            let top = bump_down(r);
-            let bot = bump_up(r, rows - 1);
-            let left = bump_down(c);
-            let right = bump_up(c, cols - 1);
 
             let mut neighbors = 0;
-            //println!("{}..{} {}..{}", top, bot, left, right);
-            for dr in top..=bot {
-                for dc in left..=right {
-                    if v[dr][dc] == '#' {
-                        neighbors += 1;
-                    }
+            for (dr, dc) in grid.neighbors((r, c), 1) {
+                //println!("{} {}", dr, dc);
+                if v[dr][dc] == '#' {
+                    neighbors += 1;
                 }
-            }
-            if seat == '#' {
-                neighbors -= 1;
             }
             //println!("{} {} {}", r, c, neighbors);
 
