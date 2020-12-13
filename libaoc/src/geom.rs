@@ -37,7 +37,6 @@ use self::GridBox::*;
 
 impl GridBox {
     /// Create a clip box for neighbor calculations.
-    #[allow(dead_code)]
     pub fn new<T>(row_size: T, col_size: T) -> GridBox
     where
         T: ConvertInto<i64>,
