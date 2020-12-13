@@ -9,9 +9,13 @@
 /// super-efficiency, so we just use the faster form of the
 /// [Euclidean
 /// Algorithm](https://en.wikipedia.org/wiki/Euclidean_algorithm#Procedure).
-pub fn gcd(a: i64, b: i64) -> i64 {
-    let mut a = a.abs();
-    let mut b = b.abs();
+pub fn gcd(m: u64, n: u64) -> u64 {
+    assert!(m > 0 && n > 0);
+    let (mut a, mut b) = if m > n {
+        (m, n)
+    } else {
+        (n, m)
+    };
     while b != 0 {
         let t = b;
         b = a % b;
@@ -22,11 +26,6 @@ pub fn gcd(a: i64, b: i64) -> i64 {
 
 #[test]
 fn test_gcd() {
-    assert_eq!(0, gcd(0, 0));
-    assert_eq!(1, gcd(1, 0));
-    assert_eq!(1, gcd(0, 1));
-    assert_eq!(5, gcd(5, 0));
-    assert_eq!(5, gcd(0, 5));
     assert_eq!(1, gcd(3, 5));
     assert_eq!(2, gcd(2, 4));
     assert_eq!(2, gcd(4, 2));
@@ -37,10 +36,13 @@ fn test_gcd() {
 /// product divided by their GCD.  The implementation is
 /// careful to do things in optimal order to avoid overflow
 /// when possible.
-pub fn lcm(a: i64, b: i64) -> i64 {
+pub fn lcm(a: u64, b: u64) -> u64 {
     assert!(a > 0 && b > 0);
-    let mut p = i64::max(a, b);
-    let q = i64::min(a, b);
+    let (mut p, q) = if a > b {
+        (a, b)
+    } else {
+        (b, a)
+    };
     p /= gcd(p, q);
     p * q
 }
