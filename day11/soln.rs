@@ -13,8 +13,8 @@ fn read_seats() -> Vec<Vec<char>> {
         .collect()
 }
 
-fn iterate_near(v: &Vec<Vec<char>>) -> Vec<Vec<char>> {
-    let mut result = v.clone();
+fn iterate_near(v: &[Vec<char>]) -> Vec<Vec<char>> {
+    let mut result = v.to_owned();
     let rows = v.len();
     let cols = v[0].len();
     let grid = GridBox::new(rows, cols);
@@ -45,8 +45,8 @@ fn iterate_near(v: &Vec<Vec<char>>) -> Vec<Vec<char>> {
     result
 }
 
-fn iterate_far(v: &Vec<Vec<char>>) -> Vec<Vec<char>> {
-    let mut result = v.clone();
+fn iterate_far(v: &[Vec<char>]) -> Vec<Vec<char>> {
+    let mut result = v.to_owned();
     let rows = v.len();
     let cols = v[0].len();
     let grid = GridBox::new(rows, cols);
@@ -83,7 +83,7 @@ fn iterate_far(v: &Vec<Vec<char>>) -> Vec<Vec<char>> {
     result
 }
 
-fn count_seats(input: &Vec<Vec<char>>) -> usize {
+fn count_seats(input: &[Vec<char>]) -> usize {
     input
         .iter()
         .flat_map(|row| row.iter())
@@ -92,7 +92,7 @@ fn count_seats(input: &Vec<Vec<char>>) -> usize {
 }
 
 #[allow(dead_code)]
-fn show_map(map: &Vec<Vec<char>>) {
+fn show_map(map: &[Vec<char>]) {
     for r in map {
         for c in r {
             print!("{}", c);
