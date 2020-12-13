@@ -3,24 +3,32 @@ for D in day??
 do
     echo $D
     ( cd $D
+      PARTS="1 2"
       if [ $D = day25 ]
       then
-          echo -n "sole part: "
-          /usr/bin/time -f '%e' cargo run --release <input.txt
-          continue
+          PARTS="1"
       fi
-      for PART in 1 2
+      for PART in $PARTS
       do
-          CMD="`egrep \"^     *cargo run --release $PART\" README.md`"
-          if [ $? -ne 0 ]
+          if ! [ -x target/release/soln ]
           then
-              continue
-          fi
-          if [ $PART = 1 ]
-          then
+              echo "  build"
               cargo build --release >/dev/null 2>&1
           fi
-          echo -n "part $PART: "
-          /usr/bin/time -f '%e' sh -c "$CMD >/dev/null 2>&1" 
+          if [ "$PARTS" = "1" ]
+          then
+              echo -n "  sole $PART: "
+              CMD="`egrep \"^     *cargo run --release\" README.md`"
+          else
+              echo -n "  part $PART: "
+              CMD="`egrep \"^     *cargo run --release $PART\" README.md`"
+          fi
+          if [ $? -ne 0 ]
+          then
+              echo "  part $PART: could not find command" >&2
+              continue
+          fi
+          CMD="`echo \"$CMD\" | sed 's= *cargo run --release=/usr/bin/time -f '%e' target/release/soln='`"
+          sh -c "$CMD 2>&1 >/dev/null" 
       done )
 done
