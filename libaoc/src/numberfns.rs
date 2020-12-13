@@ -9,6 +9,7 @@
 /// super-efficiency, so we just use the faster form of the
 /// [Euclidean
 /// Algorithm](https://en.wikipedia.org/wiki/Euclidean_algorithm#Procedure).
+#[allow(clippy::many_single_char_names)]
 pub fn gcd(m: u64, n: u64) -> u64 {
     assert!(m > 0 && n > 0);
     let (mut a, mut b) = if m > n {
