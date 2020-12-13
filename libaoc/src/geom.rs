@@ -76,11 +76,11 @@ impl GridBox {
     /// Return an iterator that will a beam from the
     /// given location in the given direction, stopping
     /// at a grid boundary.
-    pub fn beam<'a, T, U>(
-        &'a self,
+    pub fn beam<T, U>(
+        &self,
         location: (T, T),
         step: (U, U),
-    ) -> Beam<'a, T>
+    ) -> Beam<'_, T>
     where
         T: ConvertInto<i64>,
         i64: ConvertInto<T>,
