@@ -22,6 +22,7 @@
 use std::marker::PhantomData;
 
 use crate::convert::ConvertInto;
+use crate::dirns;
 
 /// Description of the grid, for possible clipping.
 #[derive(Copy, Clone)]
@@ -273,6 +274,40 @@ fn test_beam_finite() {
     let beam: Vec<(u8, u8)> = grid.beam((3, 2), (1i8, -1)).collect();
     let expected = vec![(4, 1), (5, 0)];
     assert_eq!(beam, expected);
+}
+
+pub fn neighbors4<T>() -> impl Iterator<Item = (T, T)>
+where
+    i64: ConvertInto<T>,
+{
+    dirns::DIRNS
+        .iter()
+        .map(|&(r, c)| (r.convert_into(), c.convert_into()))
+}
+
+pub fn neighbors8<T, U>(dist: T) -> impl Iterator<Item = (U, U)>
+where
+    T: ConvertInto<i64>,
+    i64: ConvertInto<U>,
+{
+    let dist = dist.convert_into();
+    assert!(dist > 0);
+    (-dist ..= dist)
+        .flat_map(move |r| (-dist ..= dist).map(move |c| (r, c)))
+        .filter(|&p| p != (0, 0))
+        .map(|(r, c)| (r.convert_into(), c.convert_into()))
+}
+
+#[test]
+fn test_neighbors8() {
+    let mut v: Vec<(i8, i8)> = neighbors8(1u8).collect();
+    v.sort();
+    let desired = vec![
+        (-1, -1), (-1,  0), (-1,  1),
+        ( 0, -1),           ( 0,  1),
+        ( 1, -1), ( 1,  0), ( 1,  1),
+    ];
+    assert_eq!(v, desired);
 }
 
 /// The ["Manhattan Distance"][1] between two points.
