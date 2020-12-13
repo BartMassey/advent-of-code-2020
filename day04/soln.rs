@@ -13,7 +13,8 @@ const EYE_COLORS: &[&str] = &[
     "amb", "blu", "brn", "gry", "grn", "hzl", "oth"
 ];
 
-const KEYS: &[(&str, fn(&str)->bool)] = &[
+type Checker = fn(&str) -> bool;
+const KEYS: &[(&str, Checker)] = &[
     ("byr", |v: &str| {
         match v.parse::<u64>() {
             Ok(v) => v >= 1920 && v <= 2002,
@@ -53,7 +54,7 @@ const KEYS: &[(&str, fn(&str)->bool)] = &[
         if chs.len() != 7 || chs[0] != '#' {
             return false;
         }
-        chs[1..].into_iter().all(|c| c.is_digit(16))
+        chs[1..].iter().all(|c| c.is_digit(16))
     }),
     ("ecl", |v: &str| {
         EYE_COLORS.iter().any(|&c| v == c)
@@ -70,18 +71,16 @@ const KEYS: &[(&str, fn(&str)->bool)] = &[
 
 fn get_passports() -> Vec<HashMap<String, String>> {
     let input: String = input_lines()
-        .map(|s| {
-            (s.replace(" ", "\n") + "\n").to_string()
-        })
+        .map(|s| s.replace(" ", "\n") + "\n")
         .collect();
     let pars: Vec<String> = input.split("\n\n").map(str::to_owned).collect();
     pars.into_iter()
         .map(|p| {
-            p.split("\n")
+            p.split('\n')
                 .filter(|&s| !s.is_empty())
                 .map(|f| {
                     let fields: Vec<&str> = f
-                        .split(":")
+                        .split(':')
                         .collect();
                     (fields[0].to_owned(), fields[1].to_owned())
                 })
@@ -104,6 +103,7 @@ fn main() {
                 //eprintln!();
                 KEYS.iter().all(|&(k, validate)| {
                     if let Some(v) = p.get(k) {
+                        #[allow(clippy::let_and_return)]
                         let result = validate(v);
                         //eprintln!("{}:{} {:?}", k, v, result);
                         result
