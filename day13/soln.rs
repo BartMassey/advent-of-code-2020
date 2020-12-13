@@ -40,25 +40,22 @@ fn contest(schedule: Vec<Option<u64>>) -> u64 {
         .filter_map(|(d, i)| i.map(|v| (d as u64, v)))
         .collect();
 
-    let (delay0, bid0) = schedule[0];
-    let mut t = delay0;
-    let mut cycle = bid0;
+    let mut t = 0;
+    let mut cycle = 1;
 
-    for &(delay, bid) in &schedule[1..] {
+    for &(delay, bid) in &schedule {
         let delay = delay % bid;
-        assert!(delay > 0);
-        while t % bid != bid - delay {
+        let target = (bid - delay) % bid;
+        while t % bid != target {
             t += cycle;
         }
         cycle = lcm(cycle, bid);
     }
 
-    let ok0 =
-        (delay0 == 0 && t % bid0 == 0) || t % bid0 == bid0 - delay0;
-    assert!(ok0);
-    for &(delay, bid) in &schedule[1..] {
+    for &(delay, bid) in &schedule {
         let delay = delay % bid;
-        assert!(t % bid == bid - delay);
+        let target = (bid - delay) % bid;
+        assert!(t % bid == target);
     }
 
     t
