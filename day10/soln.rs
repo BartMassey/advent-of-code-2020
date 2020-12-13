@@ -11,7 +11,7 @@ fn read_adapters() -> Vec<u64> {
     let mut v: Vec<u64> = input_lines()
         .map(|s| s.parse().unwrap())
         .collect();
-    v.sort();
+    v.sort_unstable();
     v
 }
 

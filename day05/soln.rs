@@ -48,7 +48,7 @@ fn main() {
             println!("{}", highest);
         },
         Part2 => {
-            ids.sort();
+            ids.sort_unstable();
             for i in 0 .. ids.len() - 1 {
                 if ids[i] + 2 == ids[i + 1] {
                     println!("{}", ids[i] + 1);
