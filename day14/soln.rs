@@ -71,17 +71,16 @@ fn gen_addrs(
     addrs: &mut Vec<usize>,
     addr: usize,
     xs: usize,
-    mask_or: usize,
     bit: usize,
 ) {
     for i in bit..=35 {
         if (xs >> i) & 1 == 1 {
-            gen_addrs(addrs, addr & !(1 << i), xs, mask_or, i + 1);
-            gen_addrs(addrs, addr | (1 << i), xs, mask_or, i + 1);
+            gen_addrs(addrs, addr & !(1 << i), xs, i + 1);
+            gen_addrs(addrs, addr | (1 << i), xs, i + 1);
             return;
         }
     }
-    addrs.push(addr | mask_or);
+    addrs.push(addr);
 }
 
 fn run_v2(prog: &[Insn]) -> u64 {
@@ -99,9 +98,9 @@ fn run_v2(prog: &[Insn]) -> u64 {
             Store { addr, value } => {
                 let xs = !(mask_nand | mask_or);
                 addrs.clear();
-                gen_addrs(&mut addrs, addr, xs, mask_or, 0);
+                gen_addrs(&mut addrs, addr, xs, 0);
                 for &addr in &addrs {
-                    mem.insert(addr, value);
+                    mem.insert(addr | mask_or, value);
                 }
             }
         }
