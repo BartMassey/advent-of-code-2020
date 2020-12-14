@@ -78,9 +78,8 @@ fn gen_addrs(
     for i in bit..=35 {
         if (xs >> i) & 1 == 1 {
             let zeros = gen_addrs(addr & !(1 << i), xs, i + 1);
-            let zeros_ones = zeros.chain(
-                gen_addrs(addr | (1 << i), xs, i + 1)
-            );
+            let zeros_ones =
+                zeros.chain(gen_addrs(addr | (1 << i), xs, i + 1));
             return Box::new(zeros_ones);
         }
     }
