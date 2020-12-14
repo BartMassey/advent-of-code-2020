@@ -67,27 +67,30 @@ fn run_v1(prog: &[Insn]) -> u64 {
     mem.values().sum()
 }
 
+// Many thanks to
+// https://fasterthanli.me/articles/recursive-iterators-rust
+// for pointing out how to make this work as an iterator.
 fn gen_addrs(
-    addrs: &mut Vec<usize>,
     addr: usize,
     xs: usize,
     bit: usize,
-) {
+) -> Box<dyn Iterator<Item = usize>> {
     for i in bit..=35 {
         if (xs >> i) & 1 == 1 {
-            gen_addrs(addrs, addr & !(1 << i), xs, i + 1);
-            gen_addrs(addrs, addr | (1 << i), xs, i + 1);
-            return;
+            let zeros = gen_addrs(addr & !(1 << i), xs, i + 1);
+            let zeros_ones = zeros.chain(
+                gen_addrs(addr | (1 << i), xs, i + 1)
+            );
+            return Box::new(zeros_ones);
         }
     }
-    addrs.push(addr);
+    Box::new(std::iter::once(addr))
 }
 
 fn run_v2(prog: &[Insn]) -> u64 {
     let mut mem: HashMap<usize, u64> = HashMap::new();
     let mut mask_nand = 0;
     let mut mask_or = 0;
-    let mut addrs = Vec::new();
 
     for &insn in prog {
         match insn {
@@ -97,9 +100,7 @@ fn run_v2(prog: &[Insn]) -> u64 {
             }
             Store { addr, value } => {
                 let xs = !(mask_nand | mask_or);
-                addrs.clear();
-                gen_addrs(&mut addrs, addr, xs, 0);
-                for &addr in &addrs {
+                for addr in gen_addrs(addr, xs, 0) {
                     mem.insert(addr | mask_or, value);
                 }
             }
