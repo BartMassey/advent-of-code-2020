@@ -144,23 +144,24 @@ fn test_mod_inv() {
 /// > *x* ≡ *a* (mod *m*)  
 /// > *x* ≡ *b* (mod *n*)
 ///
-/// if one exists.
+/// if one exists. Returns *x* and the LCM of *m* and *n*.
 ///
 /// From
 /// [Wikipedia](https://en.wikipedia.org/wiki/Chinese_remainder_theorem#Generalization_to_non-coprime_moduli).
 #[allow(clippy::many_single_char_names)]
-pub fn crt(a: u64, b: u64, m: u64, n: u64) -> Option<u64> {
+pub fn crt(a: u64, b: u64, m: u64, n: u64) -> Option<(u64, u64)> {
     let (g, u, v) = extended_gcd(m, n);
     if a % g == b % g {
         let x = a as i64 * v * n as i64
             + b as i64 * u * m as i64;
+        let lcm =  m * n / g;
         let x = if x >= 0 {
             x
         } else {
-            x + m as i64 * n as i64 / g as i64
+            x + m as i64 * n as i64
         };
         assert!(x >= 0);
-        Some(x as u64 / g)
+        Some((x as u64 / g, lcm))
     } else {
         None
     }
@@ -168,9 +169,11 @@ pub fn crt(a: u64, b: u64, m: u64, n: u64) -> Option<u64> {
 
 #[test]
 fn test_crt() {
-    assert_eq!(crt(3, 4, 5, 7), Some(18));
-    assert_eq!(crt(3, 4, 5, 6), Some(28));
+    assert_eq!(crt(3, 4, 5, 7), Some((18, 35)));
+    assert_eq!(crt(3, 4, 5, 6), Some((28, 30)));
     assert_eq!(crt(3, 4, 6, 6), None);
+    assert_eq!(crt(3, 6, 9, 12), Some((30, 36)));
+    assert_eq!(crt(3, 5, 9, 12), None);
 }
 
 
