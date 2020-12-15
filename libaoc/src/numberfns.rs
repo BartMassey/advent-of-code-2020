@@ -5,6 +5,8 @@
 
 //! Number-theoretic functions for Advent of Code solutions.
 
+use std::convert::TryFrom;
+
 /// The GCD is not part of standard Rust. We don't need
 /// super-efficiency, so we just use the faster form of the
 /// [Euclidean
@@ -55,6 +57,86 @@ fn test_lcm() {
     assert_eq!(12, lcm(4, 6));
     assert_eq!(60, lcm(20, 6));
     assert_eq!(100, lcm(25, 4));
+}
+
+/// Extended Euclidean algorithm for GCD. Suitable for
+/// finding modular inverses, etc.
+/// 
+/// From an unsigned-inputs [C++
+/// implementation](https://jeffhurchalla.com/2018/10/13/implementing-the-extended-euclidean-algorithm-with-unsigned-inputs/)
+/// by Jeff Hurchala.
+pub fn extended_gcd(a: u64, b: u64) -> (u64, i64, i64) {
+    let mut x1 = 1i64;
+    let mut y1 = 0i64;
+    let mut a1 = a;
+    let mut x0 = 0i64;
+    let mut y0 = 1i64;
+    let mut a2 = b;
+    let mut q = 0u64;
+
+    while a2 != 0 {
+        let x2 = x0 - q as i64 *x1;
+        let y2 = y0 - q as i64 * y1;
+        x0 = x1;
+        y0 = y1;
+        let a0 = a1;
+        x1 = x2;
+        y1 = y2;
+        a1 = a2;
+        q = a0 / a1;
+        a2 = a0 - q*a1;
+    }
+    (a1, x1, y1)
+}
+
+#[test]
+fn test_extended_gcd() {
+    // https://www.hackerrank.com/contests/test-contest-47/challenges/m158-multiple-euclid
+    assert_eq!(extended_gcd(3, 5), (1, 2, -1));
+    // https://brilliant.org/wiki/extended-euclidean-algorithm/
+    assert_eq!(extended_gcd(1914, 899), (29, 8, -17));
+    // http://www.math.cmu.edu/~bkell/21110-2010s/extended-euclidean.html
+    assert_eq!(extended_gcd(1398, 324), (6, -19, 82));
+}
+
+/// Modular multiplicative inverse. Returns `None` if the
+/// operation is ill-defined.
+/// 
+/// From an unsigned-inputs [C++
+/// implementation](https://jeffhurchalla.com/2018/10/13/implementing-the-extended-euclidean-algorithm-with-unsigned-inputs/)
+/// by Jeff Hurchala.
+pub fn mod_inv(modulus: u64, value: u64) -> Option<u64> {
+    // Ordinarily, operations modulo 0 are undefined.
+    if modulus == 0 {
+        return None;
+    }
+    // Without this "if" clause, when `modulus == 1` and
+    // `value == 1`, this function would calculate the
+    // result to be 1.  That result wouldn't be completely
+    // wrong, but it isn't reduced.  We always want a fully
+    // reduced result.  When `modulus == 1`, the fully
+    // reduced result will always be 0.
+    if modulus == 1 {
+        return Some(0);
+    }
+    let (gcd, _, y) = extended_gcd(modulus, value);
+    if gcd != 1 {
+        return None;
+    }
+    if y >= 0 {
+        Some(y as u64)
+    } else {
+        Some((y + i64::try_from(modulus).unwrap()) as u64)
+    }
+}
+
+#[test]
+fn test_mod_inv() {
+    // No unique inverse because inputs aren't
+    // relatively prime.
+    assert_eq!(mod_inv(9, 12), None);
+    // https://rosettacode.org/wiki/Modular_inverse
+    assert_eq!(mod_inv(2017, 42), Some(1969));
 }
 
 /// Returns -1, 0 or 1 as the input is negative, zero or
