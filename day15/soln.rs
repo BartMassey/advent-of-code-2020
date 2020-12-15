@@ -5,8 +5,6 @@
 //! Advent of Code Day 15.  
 //! Bart Massey 2020
 
-use std::collections::HashMap;
-
 use aoc::*;
 
 fn read_starts() -> Vec<u64> {
@@ -21,20 +19,20 @@ fn read_starts() -> Vec<u64> {
 fn game(starts: Vec<u64>, turns: usize) -> u64 {
     let mut si = starts.iter();
     let nstarts = starts.len();
-    let mut mem: HashMap<u64, usize> = (&mut si)
-        .take(nstarts - 1)
-        .enumerate()
-        .map(|(t, &s)| (s, t + 1))
-        // .inspect(|(s, t)| println!("*{}: {}", t, s))
-        .collect();
+    let mut mem = Vec::with_capacity(turns);
+    mem.resize(turns, 0);
+    for (t, &s) in (&mut si).take(nstarts - 1).enumerate() {
+        // println!("*{}: {}", t, s);
+        mem[s as usize] = t + 1;
+    }
     let mut last = *si.next().unwrap();
     for t in nstarts .. turns {
         // println!("{}: {}", t, last);
-        let cur = match mem.get(&last) {
-            Some(t_prev) => (t - t_prev) as u64,
-            None => 0,
+        let cur = match mem[last as usize] {
+            0 => 0,
+            t_prev => (t - t_prev) as u64,
         };
-        mem.insert(last, t);
+        mem[last as usize] = t;
         last = cur;
     }
     //println!("{}", mem.len());
