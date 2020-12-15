@@ -37,6 +37,7 @@ fn game(starts: Vec<u64>, turns: usize) -> u64 {
         mem.insert(last, t);
         last = cur;
     }
+    //println!("{}", mem.len());
     last
 }
 
