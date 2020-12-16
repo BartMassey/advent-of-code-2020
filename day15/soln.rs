@@ -19,8 +19,7 @@ fn read_starts() -> Vec<u64> {
 fn game(starts: Vec<u64>, turns: usize) -> u64 {
     let mut si = starts.iter();
     let nstarts = starts.len();
-    let mut mem = Vec::with_capacity(turns);
-    mem.resize(turns, 0);
+    let mut mem = vec![0; turns];
     for (t, &s) in (&mut si).take(nstarts - 1).enumerate() {
         // println!("*{}: {}", t, s);
         mem[s as usize] = t + 1;
