@@ -5,7 +5,7 @@
 //! Advent of Code Day 16.  
 //! Bart Massey 2020
 
-use std::collections::{HashSet, HashMap};
+use std::collections::{HashMap, HashSet};
 use std::str::FromStr;
 
 use aoc::*;
@@ -83,8 +83,9 @@ fn read_record() -> Record {
         })
         .collect();
 
-    let read_ticket = |s: &str| s.split(',')
-        .map(|f| f.parse().unwrap()).collect::<Ticket>();
+    let read_ticket = |s: &str| {
+        s.split(',').map(|f| f.parse().unwrap()).collect::<Ticket>()
+    };
 
     let mut ticker = sections[1].split('\n');
     assert_eq!(ticker.next().unwrap(), "your ticket:");
@@ -102,14 +103,16 @@ fn main() {
     // println!("{:#?}", record);
     match get_part() {
         Part1 => {
-            let sum: u64 = record.others
+            let sum: u64 = record
+                .others
                 .iter()
                 .flat_map(|t| {
                     t.iter()
                         .filter(|&&v| {
-                            !record.fields.values().any(|rs| {
-                                rs.matches(v)
-                            })
+                            !record
+                                .fields
+                                .values()
+                                .any(|rs| rs.matches(v))
                         })
                         .cloned()
                 })
@@ -117,21 +120,20 @@ fn main() {
             println!("{}", sum);
         }
         Part2 => {
-            let mut good_tickets: Vec<&Ticket> = record.others
+            let mut good_tickets: Vec<&Ticket> = record
+                .others
                 .iter()
                 .filter(|&t| {
-                    t.iter()
-                        .all(|&v| {
-                            record.fields.values().any(|rs| {
-                                rs.matches(v)
-                            })
-                        })
+                    t.iter().all(|&v| {
+                        record.fields.values().any(|rs| rs.matches(v))
+                    })
                 })
                 .collect();
             good_tickets.push(&record.my);
 
             let nfields = record.fields.len();
-            let mut fields: HashMap<&str, HashSet<usize>> = record.fields
+            let mut fields: HashMap<&str, HashSet<usize>> = record
+                .fields
                 .iter()
                 .map(|(name, ranges)| {
                     let h: HashSet<usize> = (0..nfields)
@@ -148,17 +150,15 @@ fn main() {
             let mut posns: HashMap<&str, usize> = HashMap::new();
             while !fields.is_empty() {
                 // Most constrained field.
-                let (name, cands) = fields
+                let (&name, cands) = fields
                     .iter()
                     .min_by_key(|&(_, v)| v.len())
                     .unwrap();
-                let name = name.clone();
-                let cands = cands.clone();
                 assert_eq!(cands.len(), 1);
-                let pos = cands.into_iter().next().unwrap();
+                let &pos = cands.iter().next().unwrap();
                 posns.insert(name, pos);
                 fields.remove(name);
-                for (_, ref mut cands) in &mut fields {
+                for cands in fields.values_mut() {
                     cands.remove(&pos);
                 }
             }
