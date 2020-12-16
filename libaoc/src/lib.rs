@@ -23,9 +23,6 @@ pub use self::args::*;
 pub mod sets;
 pub use self::sets::*;
 
-pub mod bits;
-pub use self::bits::*;
-
 pub mod lines;
 pub use self::lines::*;
 
