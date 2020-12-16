@@ -3,7 +3,7 @@
 # for license terms.
 
 [package]
-name = "soln"
+name = "day03"
 version = "0.1.0"
 authors = ["Bart Massey <bart@cs.pdx.edu>"]
 publish = false
@@ -14,7 +14,7 @@ license = "MIT"
 edition = "2018"
 
 [[bin]]
-name = "soln"
+name = "day03"
 path = "soln.rs"
 
 [dependencies.aoc]

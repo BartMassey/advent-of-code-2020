@@ -21,10 +21,127 @@ dependencies = [
 ]
 
 [[package]]
+name = "aoc-numberfns"
+version = "0.1.0"
+
+[[package]]
 name = "aoc-reparse"
 version = "0.1.0"
 dependencies = [
  "regex",
+]
+
+[[package]]
+name = "day01"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+]
+
+[[package]]
+name = "day02"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "aoc-reparse",
+]
+
+[[package]]
+name = "day03"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+]
+
+[[package]]
+name = "day04"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+]
+
+[[package]]
+name = "day05"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+]
+
+[[package]]
+name = "day06"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+]
+
+[[package]]
+name = "day07"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "aoc-reparse",
+]
+
+[[package]]
+name = "day08"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "aoc-reparse",
+]
+
+[[package]]
+name = "day09"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+]
+
+[[package]]
+name = "day10"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+]
+
+[[package]]
+name = "day11"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "aoc-geom",
+]
+
+[[package]]
+name = "day12"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "aoc-geom",
+ "aoc-reparse",
+]
+
+[[package]]
+name = "day13"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "aoc-numberfns",
+]
+
+[[package]]
+name = "day14"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "aoc-reparse",
+]
+
+[[package]]
+name = "day15"
+version = "0.1.0"
+dependencies = [
+ "aoc",
 ]
 
 [[package]]
@@ -56,15 +173,6 @@ name = "regex-syntax"
 version = "0.6.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3b181ba2dcf07aaccad5448e8ead58db5b742cf85dfe035e2227f137a539a189"
-
-[[package]]
-name = "soln"
-version = "0.1.0"
-dependencies = [
- "aoc",
- "aoc-geom",
- "aoc-reparse",
-]
 
 [[package]]
 name = "thread_local"

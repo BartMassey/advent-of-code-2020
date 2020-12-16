@@ -1,4 +1,5 @@
 #!/bin/sh
+cargo build --release
 for D in day??
 do
     echo $D
@@ -10,11 +11,6 @@ do
       fi
       for PART in $PARTS
       do
-          if ! [ -x target/release/soln ]
-          then
-              echo "  build"
-              cargo build --release >/dev/null 2>&1
-          fi
           if [ "$PARTS" = "1" ]
           then
               echo -n "  sole $PART: "
@@ -28,7 +24,7 @@ do
               echo "  part $PART: could not find command" >&2
               continue
           fi
-          CMD="`echo \"$CMD\" | sed 's= *cargo run --release=/usr/bin/time -f '%e' target/release/soln='`"
+          CMD="`echo \"$CMD\" | sed \"s= *cargo run --release=/usr/bin/time -f '%e' ../target/release/${D}=\"`"
           sh -c "$CMD 2>&1 >/dev/null" 
       done )
 done

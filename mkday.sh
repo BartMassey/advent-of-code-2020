@@ -71,12 +71,14 @@ then
     exit 1
 fi
 
+sed -i -e "/#dayXX/i\    \"day${DAYZ}${DAYSTR}\"," Cargo.toml
+
 cd template
 for f in *
 do
-    sed -e "s=<day>=$DAYSTR=g" -e "s=<year>=$YEAR=g" <$f >../$DAY/$f
+    sed -e "s=<day>=$DAYSTR=g" -e "s=<year>=$YEAR=g" -e "s=<0day>=$DAYZ$DAYSTR=" <$f >../$DAY/$f
 done
-mv ../$DAY/gitignore ../$DAY/.gitignore
 
 cd ../$DAY
+mv gitignore .gitignore
 echo $DAYSTR >.day
