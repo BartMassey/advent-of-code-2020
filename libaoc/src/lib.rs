@@ -38,9 +38,6 @@ pub use self::dirns::*;
 pub mod geom;
 pub use self::geom::*;
 
-pub mod intcode;
-pub use self::intcode::*;
-
 pub mod render;
 pub use self::render::*;
 
