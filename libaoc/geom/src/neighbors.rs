@@ -4,8 +4,7 @@
 //! # Examples
 //!
 //! ```
-//! use aoc::geom::*;
-//!
+//! # use aoc_geom::*;
 //! let clip_box = GridBox::new(4, 4);
 //! let mut neighbors = clip_box
 //!     .neighbors((2, 0), 1)
@@ -21,7 +20,7 @@
 
 use std::marker::PhantomData;
 
-use crate::convert::ConvertInto;
+use aoc::convert::ConvertInto;
 use crate::dirns;
 
 /// Description of the grid, for possible clipping.

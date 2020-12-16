@@ -1,0 +1,9 @@
+[package]
+name = "aoc-numberfns"
+version = "0.1.0"
+authors = ["Bart Massey <bart.massey@gmail.com>"]
+edition = "2018"
+
+[lib]
+name = "aoc_numberfns"
+path = "numberfns.rs"

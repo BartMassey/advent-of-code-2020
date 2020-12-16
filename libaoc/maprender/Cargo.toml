@@ -1,0 +1,9 @@
+[package]
+name = "aoc-maprender"
+version = "0.1.0"
+authors = ["Bart Massey <bart.massey@gmail.com>"]
+edition = "2018"
+
+[lib]
+name = "aoc_maprender"
+path = "maprender.rs"

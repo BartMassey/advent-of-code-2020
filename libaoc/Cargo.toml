@@ -14,12 +14,16 @@ readme = "README.md"
 license = "MIT"
 edition = "2018"
 
-[dependencies]
-regex = "1"
-
-[dev-dependencies]
-rand = "0.3"
-
 [features]
 default = []
 trace = []
+
+[workspace]
+members = [
+    "astar", "comb", "geom", "hexstring", "maprender",
+    "numberfns", "reparse",
+]
+default-members = [
+    "astar", "comb", "geom", "hexstring", "maprender",
+    "numberfns", "reparse",
+]

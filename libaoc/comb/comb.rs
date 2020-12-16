@@ -15,21 +15,6 @@
 
 use std::collections::BTreeSet;
 
-/// Make a set from a slice.
-pub fn make_set<T>(elems: &[T]) -> BTreeSet<T>
-where
-    T: Clone + Ord,
-{
-    elems.iter().cloned().collect()
-}
-/*
-    let mut s = BTreeSet::new();
-    for v in elems {
-        s.insert((*v).clone());
-    };
-    s
-*/
-
 /// Consruct the set of all choices of `n` items from a given
 /// set of items.
 pub fn choose<T>(
@@ -83,6 +68,10 @@ mod tests {
 
     use super::*;
     use std::collections::BTreeSet;
+
+    fn make_set<T: Clone + Ord>(elems: &[T]) -> BTreeSet<T> {
+        elems.iter().cloned().collect()
+    }
 
     /// Make a set of sets from a slice of slices.
     fn make_set_set<T>(elems: &[&[T]]) -> BTreeSet<BTreeSet<T>>

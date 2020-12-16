@@ -3,16 +3,16 @@
 // Please see the file LICENSE in this distribution
 // for license terms.
 
-//! A\* for Advent of Code 2016 solutions.
+//! A\* for Advent of Code solutions.
 //!
 //! This is a framework for running a standard [A\*
 //! search][1].  To use it, implement the `SearchState`
 //! trait for your search state and call `a_star()`. The
 //! global state for the problem instance is passed
 //! separately, and can be whatever the problem
-//! requires. (For AoC 2016, it's usually some
-//! representation of a maze.) Note that the memory use here
-//! is non-trivial: there is a lot of cloning of states.
+//! requires. (For AoC, it's usually some representation of
+//! a maze.) Note that the memory use here is non-trivial:
+//! there is a lot of cloning of states.
 //!
 //! The framework includes support for state labels, so that
 //! the search can report paths rather than just distances.
@@ -20,14 +20,14 @@
 //! bit restrictive, but covers some obvious use cases.
 //! Paths are saved with each state rather than being
 //! reconstructed at the end, which is quite expensive of
-//! memory. (This doesn't matter for AoC 2016, since none of
-//! the A\* problems ask for a path.)
+//! memory.
 //!
 //! [1]: http://en.wikipedia.org/wiki/A*_search_algorithm
 //!
 //! # Examples
 //!
 //! ```rust
+//! # use aoc_astar::*;
 //! struct Steps {
 //!     steps: Vec<(usize, Box<Fn(isize) -> isize>)>,
 //!     goal: isize
@@ -38,7 +38,7 @@
 //!     value: isize
 //! }
 //!
-//! impl aoc::SearchState for State {
+//! impl SearchState for State {
 //!     type Global = Steps;
 //!     type Label = usize;
 //!     fn label(&self) -> usize {
@@ -68,7 +68,7 @@
 //!     goal: 23
 //! };
 //! let start = State { value: 0 };
-//! match aoc::a_star(&steps, &start, true) {
+//! match a_star(&steps, &start, true) {
 //!     Some((cost, path)) => {
 //!         assert_eq!(cost, 17);
 //!         assert_eq!(path, Some(vec![0, 1, 2, 3, 6, 12, 24, 23]));

@@ -1,0 +1,12 @@
+[package]
+name = "aoc-reparse"
+version = "0.1.0"
+authors = ["Bart Massey <bart.massey@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+regex = "1"
+
+[lib]
+name = "aoc_reparse"
+path = "reparse.rs"

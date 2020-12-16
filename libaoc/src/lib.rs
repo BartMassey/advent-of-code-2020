@@ -20,32 +20,8 @@ pub use self::convert::*;
 pub mod args;
 pub use self::args::*;
 
-pub mod sets;
-pub use self::sets::*;
-
 pub mod lines;
 pub use self::lines::*;
 
-pub mod hex;
-pub use self::hex::*;
-
-pub mod astar;
-pub use self::astar::*;
-
-pub mod dirns;
-pub use self::dirns::*;
-
-pub mod geom;
-pub use self::geom::*;
-
-pub mod render;
-pub use self::render::*;
-
-pub mod numberfns;
-pub use self::numberfns::*;
-
 pub mod trace;
 pub use self::trace::*;
-
-pub mod reparse;
-pub use self::reparse::*;
