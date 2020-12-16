@@ -20,4 +20,5 @@ path = "soln.rs"
 [dependencies.aoc]
 path = "../libaoc"
 
-[dependencies]
+[dependencies.aoc-reparse]
+path = "../libaoc/reparse"

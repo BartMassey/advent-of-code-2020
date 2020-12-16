@@ -6,9 +6,11 @@
 //! Bart Massey 2020
 
 use aoc::*;
+use aoc_geom::*;
+use aoc_reparse::*;
 
-use aoc::Dirn::*;
-use aoc::Rot::*;
+use aoc_geom::Dirn::*;
+use aoc_geom::Rot::*;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Move {

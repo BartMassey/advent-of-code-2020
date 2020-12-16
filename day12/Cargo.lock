@@ -12,6 +12,17 @@ dependencies = [
 [[package]]
 name = "aoc"
 version = "0.1.0"
+
+[[package]]
+name = "aoc-geom"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+]
+
+[[package]]
+name = "aoc-reparse"
+version = "0.1.0"
 dependencies = [
  "regex",
 ]
@@ -51,6 +62,8 @@ name = "soln"
 version = "0.1.0"
 dependencies = [
  "aoc",
+ "aoc-geom",
+ "aoc-reparse",
 ]
 
 [[package]]

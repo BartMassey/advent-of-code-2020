@@ -6,6 +6,7 @@
 //! Bart Massey 2020
 
 use aoc::*;
+use aoc_reparse::*;
 
 use std::collections::HashMap;
 

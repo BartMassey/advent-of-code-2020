@@ -6,6 +6,7 @@
 //! Bart Massey 2020
 
 use aoc::*;
+use aoc_geom::*;
 
 fn read_seats() -> Vec<Vec<char>> {
     input_lines()

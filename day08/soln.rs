@@ -8,6 +8,7 @@
 use std::collections::{HashMap, HashSet};
 
 use aoc::*;
+use aoc_reparse::*;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Opcode {

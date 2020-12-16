@@ -6,6 +6,7 @@
 //! Bart Massey 2020
 
 use aoc::*;
+use aoc_numberfns::*;
 
 fn read_schedule() -> (u64, Vec<Option<u64>>) {
     let mut lines = input_lines();

@@ -17,7 +17,6 @@ edition = "2018"
 name = "soln"
 path = "soln.rs"
 
-[dependencies.aoc]
-path = "../libaoc"
-
 [dependencies]
+aoc = { path = "../libaoc" }
+aoc-numberfns = { path = "../libaoc/numberfns" }

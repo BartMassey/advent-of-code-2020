@@ -6,6 +6,7 @@
 //! Bart Massey 2020
 
 use aoc::*;
+use aoc_reparse::*;
 
 /// Parse of one line from the input.
 struct Input {
