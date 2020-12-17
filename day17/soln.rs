@@ -9,23 +9,20 @@ use aoc::*;
 
 use std::collections::HashSet;
 
-type Board3 = HashSet<[isize;3]>;
-type Board4 = HashSet<[isize;4]>;
+type Board3 = HashSet<[isize; 3]>;
+type Board4 = HashSet<[isize; 4]>;
 
 fn read_initial3() -> Board3 {
     input_lines()
         .enumerate()
         .flat_map(|(row, l)| {
-            l
-                .into_chars()
-                .enumerate()
-                .filter_map(move |(col, c)| {
-                    match c {
-                        '.' => None,
-                        '#' => Some([row as isize, col as isize, 0]),
-                        c => panic!("unexpected char {} in input", c),
-                    }
-                })
+            l.into_chars().enumerate().filter_map(move |(col, c)| {
+                match c {
+                    '.' => None,
+                    '#' => Some([row as isize, col as isize, 0]),
+                    c => panic!("unexpected char {} in input", c),
+                }
+            })
         })
         .collect()
 }
@@ -34,16 +31,13 @@ fn read_initial4() -> Board4 {
     input_lines()
         .enumerate()
         .flat_map(|(row, l)| {
-            l
-                .into_chars()
-                .enumerate()
-                .filter_map(move |(col, c)| {
-                    match c {
-                        '.' => None,
-                        '#' => Some([row as isize, col as isize, 0, 0]),
-                        c => panic!("unexpected char {} in input", c),
-                    }
-                })
+            l.into_chars().enumerate().filter_map(move |(col, c)| {
+                match c {
+                    '.' => None,
+                    '#' => Some([row as isize, col as isize, 0, 0]),
+                    c => panic!("unexpected char {} in input", c),
+                }
+            })
         })
         .collect()
 }
@@ -112,7 +106,8 @@ fn iter_life4(state: &mut Board4, count: usize) {
                 for dc in -1..=1 {
                     for dp in -1..=1 {
                         for dh in -1..=1 {
-                            if dr == 0 && dc == 0 && dp == 0 && dh == 0 {
+                            if dr == 0 && dc == 0 && dp == 0 && dh == 0
+                            {
                                 continue;
                             }
                             let nb = [r + dr, c + dc, p + dp, h + dh];
@@ -136,7 +131,8 @@ fn iter_life4(state: &mut Board4, count: usize) {
                 for dc in -1..=1 {
                     for dp in -1..=1 {
                         for dh in -1..=1 {
-                            if dr == 0 && dc == 0 && dp == 0 && dh == 0 {
+                            if dr == 0 && dc == 0 && dp == 0 && dh == 0
+                            {
                                 continue;
                             }
                             let nb = [r + dr, c + dc, p + dp, h + dh];
