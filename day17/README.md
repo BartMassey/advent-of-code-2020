@@ -3,8 +3,11 @@ Bart Massey
 
 ---
 
-Exercise in difficult debugging, mostly. Way too much
-copy-paste in my solution.
+Exercise in difficult debugging, mostly.
+
+Way too much copy-paste in my solution. See the branch
+`day17-const-generics` in this repo for nightly-only code
+that eliminates recoding Part 2.
 
 ---
 
