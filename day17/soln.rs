@@ -11,13 +11,13 @@ use aoc::*;
 
 use std::collections::HashSet;
 
-type Board<const D: usize> = HashSet<[isize;D]>;
+type Board<const D: usize> = HashSet<[isize; D]>;
 
 fn read_initial<const D: usize>() -> Board<D> {
     let mut initial = HashSet::new();
     for (row, l) in input_lines().enumerate() {
         for (col, c) in l.chars().enumerate() {
-            let mut template = [0;D];
+            let mut template = [0; D];
             match c {
                 '#' => {
                     template[0] = row as isize;
@@ -32,9 +32,10 @@ fn read_initial<const D: usize>() -> Board<D> {
     initial
 }
 
-fn offsets<const D: usize>(i: usize, mut template: [isize;D]) ->
-    Vec<[isize;D]>
-{
+fn offsets<const D: usize>(
+    i: usize,
+    mut template: [isize; D],
+) -> Vec<[isize; D]> {
     if i == D {
         return vec![template];
     }
@@ -49,7 +50,7 @@ fn offsets<const D: usize>(i: usize, mut template: [isize;D]) ->
 }
 
 fn iter_life<const D: usize>(state: &mut Board<D>, count: usize) {
-    let mut off = offsets(0, [0;D]);
+    let mut off = offsets(0, [0; D]);
     let _ = off.pop();
     for _ in 0..count {
         let mut next = HashSet::new();
