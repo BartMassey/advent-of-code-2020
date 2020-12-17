@@ -3,8 +3,15 @@ Bart Massey
 
 ---
 
-Exercise in difficult debugging, mostly. Way too much
-copy-paste in my solution.
+Exercise in difficult debugging, mostly.
+
+Reduced copy-paste in my solution by using const
+generics. Fun. Requires nightly to compile. Easiest
+way is probably
+
+    rustup override set nightly
+
+in this directory.
 
 ---
 
