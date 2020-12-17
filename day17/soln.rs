@@ -32,6 +32,9 @@ fn read_initial<const D: usize>() -> Board<D> {
     initial
 }
 
+/// Generate the offsets for the neighborhood of a
+/// coordinate. Constructed such that the last delta is
+/// all-zeros.
 fn offsets<const D: usize>(
     i: usize,
     mut template: [isize; D],
@@ -51,49 +54,51 @@ fn offsets<const D: usize>(
 
 fn iter_life<const D: usize>(state: &mut Board<D>, count: usize) {
     let mut off = offsets(0, [0; D]);
+    // Discard all-zeros offset.
     let _ = off.pop();
+
+    let mut next = HashSet::new();
+    let mut pages = [&mut *state, &mut next];
+    let mut cands = HashSet::new();
+
     for _ in 0..count {
-        let mut next = HashSet::new();
-        let mut empties = HashSet::new();
+        let [cur, next] = pages;
+        next.clear();
 
-        for p in state.iter() {
-            let mut neighbors = 0;
-            for dp in &off {
-                let mut xp = *p;
+        cands.clone_from(cur);
+        for p in cur.iter() {
+            for &dp in &off {
+                let mut p = *p;
                 for i in 0..D {
-                    xp[i] += dp[i];
+                    p[i] += dp[i];
                 }
-                if state.contains(&xp) {
-                    neighbors += 1;
-                } else {
-                    empties.insert(xp);
-                }
-            }
-
-            if neighbors == 2 || neighbors == 3 {
-                next.insert(*p);
+                cands.insert(p);
             }
         }
 
-        for p in empties.iter() {
+        for p in cands.iter() {
             let mut neighbors = 0;
-            for dp in &off {
-                let mut xp = *p;
+            for &dp in &off {
+                let mut p = *p;
                 for i in 0..D {
-                    xp[i] += dp[i];
+                    p[i] += dp[i];
                 }
-                if state.contains(&xp) {
+                if cur.contains(&p) {
                     neighbors += 1;
                 }
             }
 
-            if neighbors == 3 {
+            if (neighbors == 2 && cur.contains(p)) || neighbors == 3 {
                 next.insert(*p);
             }
         }
 
-        *state = next;
+        pages = [next, cur];
     }
+    let [cur, _] = pages;
+    // XXX Cannot figure out how to get the borrow
+    // checker to let me just move `*cur`.
+    *state = cur.clone();
 }
 
 fn main() {
