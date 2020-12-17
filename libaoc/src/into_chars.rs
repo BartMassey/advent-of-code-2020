@@ -21,7 +21,6 @@ pub fn utf8_char(bytes: &[u8]) -> Option<(usize, char)> {
         (byte & (0x7F >> width)) as u32
     }
 
-
     fn utf8_acc_cont_byte(ch: u32, byte: u8) -> u32 {
         (ch << 6) | (byte & CONT_MASK) as u32
     }
@@ -66,7 +65,6 @@ pub fn utf8_char(bytes: &[u8]) -> Option<(usize, char)> {
     std::char::from_u32(ch).map(|c| (nused, c))
 }
 
-
 pub struct CharSource {
     s: String,
     i: usize,
@@ -82,11 +80,10 @@ impl Iterator for CharSource {
     type Item = char;
     fn next(&mut self) -> Option<Self::Item> {
         let suffix = &self.s[self.i..].as_bytes();
-        utf8_char(suffix)
-            .map(|(i, ch)| {
-                self.i += i;
-                ch
-            })
+        utf8_char(suffix).map(|(i, ch)| {
+            self.i += i;
+            ch
+        })
     }
 }
 
