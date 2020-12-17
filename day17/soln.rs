@@ -32,6 +32,10 @@ fn read_initial<const D: usize>() -> Board<D> {
     initial
 }
 
+/// Returns a vector of offsets for the problem
+/// neighborhood.  Constructed so that the last offset is
+/// all-zeros. Could be an iterator, but constructing just
+/// once might be faster.
 fn offsets<const D: usize>(
     i: usize,
     mut template: [isize; D],
@@ -49,8 +53,10 @@ fn offsets<const D: usize>(
     acc
 }
 
+/// Board state is updated on exit.
 fn iter_life<const D: usize>(state: &mut Board<D>, count: usize) {
     let mut off = offsets(0, [0; D]);
+    // Remove all-zeros "neighbor".
     let _ = off.pop();
     for _ in 0..count {
         let mut next = HashSet::new();
