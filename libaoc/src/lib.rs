@@ -25,3 +25,6 @@ pub use self::lines::*;
 
 pub mod trace;
 pub use self::trace::*;
+
+pub mod into_chars;
+pub use self::into_chars::*;
