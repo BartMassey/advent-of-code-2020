@@ -13,31 +13,39 @@ type Board3 = HashSet<[isize;3]>;
 type Board4 = HashSet<[isize;4]>;
 
 fn read_initial3() -> Board3 {
-    let mut initial = HashSet::new();
-    for (row, l) in input_lines().enumerate() {
-        for (col, c) in l.chars().enumerate() {
-            match c {
-                '.' => (),
-                '#' => {initial.insert([row as isize, col as isize, 0]);},
-                c => panic!("unexpected char {} in input", c),
-            }
-        }
-    }
-    initial
+    input_lines()
+        .enumerate()
+        .flat_map(|(row, l)| {
+            l
+                .into_chars()
+                .enumerate()
+                .filter_map(move |(col, c)| {
+                    match c {
+                        '.' => None,
+                        '#' => Some([row as isize, col as isize, 0]),
+                        c => panic!("unexpected char {} in input", c),
+                    }
+                })
+        })
+        .collect()
 }
 
 fn read_initial4() -> Board4 {
-    let mut initial = HashSet::new();
-    for (row, l) in input_lines().enumerate() {
-        for (col, c) in l.chars().enumerate() {
-            match c {
-                '.' => (),
-                '#' => {initial.insert([row as isize, col as isize, 0, 0]);},
-                c => panic!("unexpected char {} in input", c),
-            }
-        }
-    }
-    initial
+    input_lines()
+        .enumerate()
+        .flat_map(|(row, l)| {
+            l
+                .into_chars()
+                .enumerate()
+                .filter_map(move |(col, c)| {
+                    match c {
+                        '.' => None,
+                        '#' => Some([row as isize, col as isize, 0, 0]),
+                        c => panic!("unexpected char {} in input", c),
+                    }
+                })
+        })
+        .collect()
 }
 
 fn iter_life3(state: &mut Board3, count: usize) {
