@@ -51,56 +51,32 @@ fn read_eqns() -> Vec<Eqn> {
         .collect()
 }
 
-fn eval1(Eqn(eqn): &Eqn) -> i64 {
-    let mut accum: Vec<i64> = Vec::new();
-    let mut opstack: Vec<Option<Token>> = Vec::new();
-    let mut op: Option<Token> = None;
-
-    fn tos(a: &mut[i64]) -> &mut i64 {
-        a.last_mut().unwrap()
-    }
-
-    accum.push(0);
-    for &tok in eqn {
-        match tok {
-            Num(n) => {
-                match op {
-                    None => *tos(&mut accum) = n,
-                    Some(tok) => {
-                        match tok {
-                            Plus => *tos(&mut accum) += n,
-                            Times => *tos(&mut accum) *= n,
-                            _  => panic!("bad operator"),
-                        }
-                        op = None;
-                    }
+peg::parser!{
+    grammar ev1() for [Token] {
+        rule number() -> i64
+            = n:$[Num(_)] {
+                match n[0] {
+                    Num(n) => n,
+                    _ => unreachable!(),
                 }
             }
-            Plus | Times => op = Some(tok),
-            LParen => {
-                accum.push(0);
-                opstack.push(op);
-                op = None;
-            }
-            RParen => {
-                let n = accum.pop().unwrap();
-                let xop = opstack.pop().unwrap();
-                match xop {
-                    Some(Plus) => *tos(&mut accum) += n,
-                    Some(Times) => *tos(&mut accum) *= n,
-                    None => *tos(&mut accum) = n,
-                    _ => panic!("unexpected op in )"),
-                }
-                op = None;
-            }
+
+        pub rule arithmetic() -> i64 = precedence!{
+            x:(@) [Times] y:@ { x * y }
+            x:(@) [Plus] y:@ { x + y }
+            --
+            n:number() { n }
+            [LParen] e:arithmetic() [RParen] { e }
         }
     }
-    assert!(accum.len() == 1 && op.is_none());
-    accum[0]
+}
+
+fn eval1(Eqn(eqn): &Eqn) -> i64 {
+    ev1::arithmetic(eqn).unwrap()
 }
 
 peg::parser!{
-    grammar eval() for [Token] {
+    grammar ev2() for [Token] {
         rule number() -> i64
             = n:$[Num(_)] {
                 match n[0] {
@@ -121,7 +97,7 @@ peg::parser!{
 }
 
 fn eval2(Eqn(eqn): &Eqn) -> i64 {
-    eval::arithmetic(eqn).unwrap()
+    ev2::arithmetic(eqn).unwrap()
 }
 
 fn main() {
