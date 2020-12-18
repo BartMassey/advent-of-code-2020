@@ -7,7 +7,7 @@
 
 use aoc::*;
 
-use peg;
+extern crate peg;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Token {
@@ -39,7 +39,8 @@ fn read_eqns() -> Vec<Eqn> {
                         while j < chs.len() && chs[j].is_digit(10) {
                             j += 1;
                         }
-                        let num: String = chs[i..j].iter().cloned().collect();
+                        let num: String =
+                            chs[i..j].iter().cloned().collect();
                         let num: i64 = num.parse().unwrap();
                         toks.push(Num(num));
                     }
@@ -51,7 +52,7 @@ fn read_eqns() -> Vec<Eqn> {
         .collect()
 }
 
-peg::parser!{
+peg::parser! {
     grammar ev1() for [Token] {
         rule number() -> i64
             = n:$[Num(_)] {
@@ -75,7 +76,7 @@ fn eval1(Eqn(eqn): &Eqn) -> i64 {
     ev1::arithmetic(eqn).unwrap()
 }
 
-peg::parser!{
+peg::parser! {
     grammar ev2() for [Token] {
         rule number() -> i64
             = n:$[Num(_)] {
