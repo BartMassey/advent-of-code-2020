@@ -17,10 +17,6 @@ edition = "2018"
 name = "day18"
 path = "soln.rs"
 
-[[bin]]
-name = "peg"
-path = "peg.rs"
-
 [dependencies]
 aoc = { path = "../libaoc" }
 peg = "0"
