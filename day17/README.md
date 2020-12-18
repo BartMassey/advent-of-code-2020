@@ -13,6 +13,10 @@ way is probably
 
 in this directory.
 
+Added page-flipping in an attempt to improve performance
+through memory locality. Makes it slightly slower for some
+inscrutable reason.
+
 ---
 
 Solution to [this problem](https://adventofcode.com/2020/day/17).

@@ -52,21 +52,21 @@ fn offsets<const D: usize>(
     acc
 }
 
-fn iter_life<const D: usize>(state: &mut Board<D>, count: usize) {
+fn iter_life<const D: usize>(state: Board<D>, count: usize) -> Board<D> {
     let mut off = offsets(0, [0; D]);
     // Discard all-zeros offset.
     let _ = off.pop();
 
-    let mut next = HashSet::new();
-    let mut pages = [&mut *state, &mut next];
+    let next = HashSet::new();
+    let mut pages = [state, next];
     let mut cands = HashSet::new();
 
     for _ in 0..count {
-        let [cur, next] = pages;
+        let [cur, mut next] = pages;
         next.clear();
 
-        cands.clone_from(cur);
-        for p in cur.iter() {
+        cands.clone_from(&cur);
+        for p in &cur {
             for &dp in &off {
                 let mut p = *p;
                 for i in 0..D {
@@ -76,7 +76,7 @@ fn iter_life<const D: usize>(state: &mut Board<D>, count: usize) {
             }
         }
 
-        for p in cands.iter() {
+        for p in &cands {
             let mut neighbors = 0;
             for &dp in &off {
                 let mut p = *p;
@@ -96,22 +96,19 @@ fn iter_life<const D: usize>(state: &mut Board<D>, count: usize) {
         pages = [next, cur];
     }
     let [cur, _] = pages;
-    // XXX Cannot figure out how to get the borrow
-    // checker to let me just move `*cur`.
-    *state = cur.clone();
+    cur
+}
+
+fn solve<const D: usize>() -> usize {
+    let initial: Board<D> = read_initial();
+    let finally = iter_life(initial, 6);
+    finally.len()
 }
 
 fn main() {
-    match get_part() {
-        Part1 => {
-            let mut initial: Board<3> = read_initial();
-            iter_life(&mut initial, 6);
-            println!("{}", initial.len());
-        }
-        Part2 => {
-            let mut initial: Board<4> = read_initial();
-            iter_life(&mut initial, 6);
-            println!("{}", initial.len());
-        }
-    }
+    let n = match get_part() {
+        Part1 => solve::<3>(),
+        Part2 => solve::<4>(),
+    };
+    println!("{}", n);
 }
