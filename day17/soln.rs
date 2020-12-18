@@ -53,8 +53,7 @@ fn offsets<const D: usize>(
     acc
 }
 
-/// Board state is updated on exit.
-fn iter_life<const D: usize>(state: &mut Board<D>, count: usize) {
+fn iter_life<const D: usize>(mut state: Board<D>, count: usize) -> Board<D> {
     let mut off = offsets(0, [0; D]);
     // Remove all-zeros "neighbor".
     let _ = off.pop();
@@ -62,7 +61,7 @@ fn iter_life<const D: usize>(state: &mut Board<D>, count: usize) {
         let mut next = HashSet::new();
         let mut empties = HashSet::new();
 
-        for p in state.iter() {
+        for p in &state {
             let mut neighbors = 0;
             for dp in &off {
                 let mut xp = *p;
@@ -81,7 +80,7 @@ fn iter_life<const D: usize>(state: &mut Board<D>, count: usize) {
             }
         }
 
-        for p in empties.iter() {
+        for p in &empties {
             let mut neighbors = 0;
             for dp in &off {
                 let mut xp = *p;
@@ -98,21 +97,21 @@ fn iter_life<const D: usize>(state: &mut Board<D>, count: usize) {
             }
         }
 
-        *state = next;
+        state = next;
     }
+    state
+}
+
+fn solve<const D: usize>() -> usize {
+    let initially: Board<D> = read_initial();
+    let finally = iter_life(initially, 6);
+    finally.len()
 }
 
 fn main() {
-    match get_part() {
-        Part1 => {
-            let mut initial: Board<3> = read_initial();
-            iter_life(&mut initial, 6);
-            println!("{}", initial.len());
-        }
-        Part2 => {
-            let mut initial: Board<4> = read_initial();
-            iter_life(&mut initial, 6);
-            println!("{}", initial.len());
-        }
-    }
+    let n = match get_part() {
+        Part1 => solve::<3>(),
+        Part2 => solve::<4>(),
+    };
+    println!("{}", n);
 }
