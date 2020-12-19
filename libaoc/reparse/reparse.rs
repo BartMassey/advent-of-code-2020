@@ -33,11 +33,7 @@ impl<'a> Rematch<'a> {
         self.0.get(index).unwrap().as_str().parse().unwrap()
     }
 
-    pub fn get_opt<T>(&'a self, index: usize) -> Option<T>
-    where
-        T: FromStr,
-        <T as FromStr>::Err: Debug,
-    {
-        self.0.get(index).map(|v| v.as_str().parse().unwrap())
+    pub fn get_raw(&self, index: usize) -> Option<String> {
+        self.0.get(index).map(|s| s.as_str().to_string())
     }
 }
