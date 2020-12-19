@@ -19,7 +19,10 @@ and test for Part 2: I'm still not sure I did it right after
 checking a bunch of times. This is not good problem design
 and presentation.
 
-Maybe finally done with AoC 2020. We'll see.
+Finally done with AoC 2020. I think I now understand why
+Part 2 is failing, but I have zero interest in trying to
+refactor their grammar. I could cheat and use a parser
+generator, but bleah. The fun is gone.
 
 ---
 
