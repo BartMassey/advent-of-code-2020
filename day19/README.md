@@ -27,8 +27,11 @@ Solution to [this problem](https://adventofcode.com/2020/day/19).
 
 Save your problem input to `input.txt` and run with
 
-    cargo run --release 1 <input.txt
-    cargo run --release 2 <input.txt
+    cargo run --release 1 <input1.txt
+    cargo run --release 2 <input2.txt
+
+(The part number is ignored here, but is useful
+for some of my autotooling.)
 
 ---
 
