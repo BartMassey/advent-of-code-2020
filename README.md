@@ -1,12 +1,13 @@
 # Advent Of Code 2020: Tutorial Solutions in Rust
 Copyright (c) 2020 Bart Massey
 
-Herein lie Rust solutions to at least some of the problems
-of the 2020
-[Advent of Code](http://adventofcode.com). Advent of Code is
-a fantastic exercise, and I thank the author and others
-involved profusely for their excellent work. Thanks also to
-`relsqui` for pointing me at this back in 2015.
+Herein lie Rust solutions to the problems of the 2020
+[Advent of Code](http://adventofcode.com) through Day 19
+Part 1.
+
+Advent of Code is a fun exercise up to a point, and I thank
+the author and others involved for their work. Thanks also
+to `relsqui` for pointing me at this back in 2015.
 
 ## Previously
 
@@ -23,13 +24,13 @@ involved profusely for their excellent work. Thanks also to
 
 ## Organization
 
-The solutions will be in directories named `day01` through
-`day25`. For each solution, I will include cleaned-up Rust
+The solutions are in directories named `day01` through
+`day19`. For each solution, I include cleaned-up Rust
 code. There is a `README.md` in every problem directory
 containing algorithm descriptions, comments and usage
-instructions. I have also included the problem descriptions
-(`part1.md` and `part2.md`) and my specific `input.txt` for
-posterity.
+instructions. I used to included the problem descriptions
+and my specific `input.txt`, but apparently the authors of
+AoC don't want me to do that.
 
 The solutions load library code from the included `libaoc`
 crate. See its documentation for details.
@@ -62,24 +63,18 @@ these.
 ## Infrastructure
 
 There's some engineering infrastructure here in the form of
-the `template` directory and the `mkday.sh` and
-`process-aoc.sh` shell scripts.  These speed each day's
-setup considerably. At the beginning of each day I `sh
-mkday.sh`. (The day number is tracked automatically but can
-be overwritten on the command line.) At the end of the
-day I select and copy the page source of the day's AoC
-webpage and then
-
-    xclip -selection CLIPBOARD -out | sh ../process-aoc.sh
-
-to get markdown into the problem files for posterity.
+the `template` directory and the `mkday.sh` and other shell
+scripts.  These speed each day's setup considerably. At the
+beginning of each day I `sh mkday.sh`. (The day number is
+tracked automatically but can be overwritten on the command
+line.)
 
 You can get times for all parts of all days with `sh
 times.sh` (will build before timing). This also verifies
-that everything runs.  You can use `sh clean.sh` to run
-`cargo clean` in the day directories — Rust `target`
-directories are huge. Use the `-a` flag to also clean in
-`libaoc`.
+that everything runs.  This is a Rust workspace: you can use
+Cargo commands at top-level on the entire workspace. `cargo
+clean` is especially useful here — Rust `target` directories
+are huge.
 
 ## Misc
 
