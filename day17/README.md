@@ -5,13 +5,8 @@ Bart Massey
 
 Exercise in difficult debugging, mostly.
 
-Reduced copy-paste in my solution by using const
-generics. Fun. Requires nightly to compile. Easiest
-way is probably
-
-    rustup override set nightly
-
-in this directory.
+Reduced copy-paste in my solution by using const generics
+(became part of stable Rust with 1.51 in late March). Fun.
 
 ---
 
