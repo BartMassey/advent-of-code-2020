@@ -2,8 +2,6 @@
 // Please see the file LICENSE in this distribution
 // for license terms.
 
-#![feature(min_const_generics)]
-
 //! Advent of Code Day 17.  
 //! Bart Massey 2020
 
